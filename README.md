@@ -7,7 +7,7 @@
 
 ### R-CNN 系列
 
-<a name='R-CNN.md'>R-CNN</a>
+<a href='R-CNN.md'>R-CNN</a>
 
 Fast R-CNN
 
