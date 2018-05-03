@@ -50,7 +50,7 @@ R-CNN
 
     b )  了解预训练、迁移学习
 
-    c） 了解目标检测的基本概念，指导IoU、Ground Truth
+    c） 了解目标检测的基本概念，知道IoU、Ground Truth
 
 知识点
 ------
@@ -89,9 +89,9 @@ propagation。
 总体步骤
 --------
 
- 
+ ![R-CNN流程图](./pic/R-CNN流程图.png)
 
-![C:\\9e1bb637e7aa4a712fac928e9e068587](media/9eee282c61c93c8cdc441fc2dfedd396.tmp)
+
 
 ### Region proposals生成
 
@@ -143,45 +143,39 @@ propagation。
 
         算法生成的Region proposals
 Box和实际的Ground-Truth肯定存在出入，我们希望这些box能尽可能接近Ground
-Truth。对每个 假设Region proposals(P代表)经过如下线性变换到 Ground Truth( 
+Truth。对每个 假设Region proposals(P代表)经过如下线性变换到 Ground Truth( $\hat{G}​$代表)；其中x，y代表坐标，w,h代表宽度和高度。
 
-![C:\\2a32294f61074c2af22a5f349c080ab3](media/d9a149ccf75079ac13dd606487a229a6.tmp)
+​     $\hat G_x = P_wd_x(P) + P_x$    
 
-代表)；其中x，y代表坐标，w,h代表宽度和高度。
+​     $\hat G_y = P_hd_y(P) + P_y$  
 
-![C:\\7942d4e2187774bda1e82e67fc4f6602](media/2f7e0de51beb59ecb03e42d10a87d0ed.tmp)
+​     $\hat G_w = P_wexp(d_w(P))$ 
 
-注：
+​     $\hat G_h = P_hexp(d_h(P)))$
 
-![C:\\b9f1e21c4e8ca2cf3eade5bc620a9b37](media/be08cfc5867835d4f38a08b22045ad88.tmp)
+  
+
+注：$d_*(P) = w^T_*\phi_5(P)$
 
      （**\* **是x,y,w,h任意一个，
 
-![C:\\0711687b161c50cd2f1dba8afd4bce31](media/cf1f1b97a15d02dd6a741c1234f546cc.tmp)
+是需要学习的模型参数；$\phi_5(P)$ 是Region proposals第5个池化层的特征）。
 
-是需要学习的模型参数；
+ $t_x = (G_x - P_x)/P_w$  (6)
 
-![C:\\09352378e53006f2a44291213bc72288](media/0d014a27c415e466c4db56301ba843f6.tmp)
+ $t_y = (G_y - P_y)/P_h$  (7)
 
- 是Region proposals第5个池化层的特征）。
+ $t_w = log(G_w/P_w) $    (8)
+
+$t_h = log(G_h/P_h)$   (9)
 
  
 
- 
 
-![C:\\5be4ac1dcb37c933b15ddcb03a6b33aa](media/53880b17f18bffca23165b94d5bdfdfc.tmp)
 
-对于训练的样本对(P, G)；优化的目标就是让
+对于训练的样本对(P, G)；优化的目标就是让$w^T_*\phi_5(P)$ 去拟合$t_*$；使用岭回归模型，优化目标如下：
 
-![C:\\deb97ceab91d80e9f1d20652fca7fe21](media/c30cec92109a348d5312542d27f0394d.tmp)
-
- 去拟合
-
-![C:\\dd33a066c8433a5cf5a03728ad23b857](media/036c7abbe349e1683314371d2e557482.tmp)
-
-；使用岭回归模型，优化目标如下：
-
-![C:\\17f9e5add7b8387e7d61e85abeb08ca4](media/b9c0f1d681ee6bd09c43d2994d1ab781.tmp)
+$w_* = \underset{\hat w_*}{argmin} \sum_i^N(t_*^i - \hat w^T_*\phi_5(P^i))^2 + \lambda||\hat w_*||^2 $
 
 按类别做Bounding-box 回归，所有一共有N\*4个回归函数。
 
