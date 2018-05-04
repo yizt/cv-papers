@@ -101,7 +101,7 @@ interest），感兴趣区域。机器视觉、图像处理中，从被处理的
      Spatial Pyramid Pooling
 空间金字塔池化。传统CNN中的全连接层需要输入是固定大小。在图像处理中，原始图片大小不一；经过卷积后大小还是不同，这样没有办法直接接入全连接层。
 
-![特征金字塔池化](pic/Fast R-CNN 特征金字塔池化.jpg)
+![特征金字塔池化](pic/FastR-CNN特征金字塔池化.jpg)
 
 
 
@@ -120,7 +120,7 @@ map就会变成16+4+1=21个feature maps。这不就解决了特征图大小不�
 
 ###  网络结构
 
-![CFast R-CNN 网络结构](pic/Fast R-CNN 网络结构.jpg)
+![Fast R-CNN 网络结构](pic/Fast R-CNN 网络结构.jpg)
 
            Fast R-CNN网络的输入时一整张图片和Selective
 Searchcong方法从图片中的获取的Proposals。首先通过若干卷积和池化层产生一个卷积特征图。然后对于每一个Proposal,RoI池化层从特征图中抽取定长的特征向量。每个特征向量送入一系列的全连接层；最后分支为两个兄弟输出层：一个使用softmax预测K+1个类别，一个对K类别做bounding-box
@@ -175,7 +175,7 @@ box回归的权重都使用零均值高斯分布初始化，标准差0.01\~0.001
 
      Proposal RoI投影计算方法
 
-$x^‘ = \lfloor \frac x S\rfloor  $  ; 其中$x^‘$是ROI在特征图Feature Map中的横坐标，x时RoI在原图中的横坐标;S是所有卷积层和池化层步长strides的乘积，纵坐标也是同样的计算方法。ROI在Feature
+$$x^‘ = \lfloor \frac x S\rfloor  $$  ; 其中$$x^‘$$是ROI在特征图Feature Map中的横坐标，x时RoI在原图中的横坐标;S是所有卷积层和池化层步长strides的乘积，纵坐标也是同样的计算方法。ROI在Feature
 
 Map中对应的区域后，就做RoI 最大池化转为固定长度的特征向量。
 
