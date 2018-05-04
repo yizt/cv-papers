@@ -71,7 +71,7 @@ proposals依次通过CNN，而是直接输入原图，来提取特征（这样�
 
  
 
- <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+
 
  
 
@@ -173,9 +173,9 @@ box回归的权重都使用零均值高斯分布初始化，标准差0.01\~0.001
 关键点
 ------
 
-     Proposal RoI投影计算方法
+     Proposal RoI投影计算方法 <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default">
 
-$$x^‘ = \lfloor \frac x S\rfloor  $$  ; 其中$$x^‘$$是ROI在特征图Feature Map中的横坐标，x时RoI在原图中的横坐标;S是所有卷积层和池化层步长strides的乘积，纵坐标也是同样的计算方法。ROI在Feature
+$$x^‘ = \lfloor \frac x S\rfloor  $$  ; 其中$$x^‘$$</script>是ROI在特征图Feature Map中的横坐标，x时RoI在原图中的横坐标;S是所有卷积层和池化层步长strides的乘积，纵坐标也是同样的计算方法。ROI在Feature
 
 Map中对应的区域后，就做RoI 最大池化转为固定长度的特征向量。
 
