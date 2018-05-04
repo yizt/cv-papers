@@ -1,4 +1,3 @@
-# cv-papers
 R-CNN
 =====
 
@@ -89,7 +88,7 @@ propagation。
 总体步骤
 --------
 
- ![R-CNN流程图](./pic/R-CNN流程图.png)
+ ![R-CNN流程图](pic/R-CNN流程图.png)
 
 
 
