@@ -71,7 +71,7 @@ proposals依次通过CNN，而是直接输入原图，来提取特征（这样�
 
  
 
- 
+ <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
 
  
 
