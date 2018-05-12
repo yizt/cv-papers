@@ -120,7 +120,7 @@ map就会变成16+4+1=21个feature maps。这不就解决了特征图大小不�
 
 ###  网络结构
 
-![Fast R-CNN 网络结构](pic/Fast R-CNN 网络结构.jpg)
+![Fast_R-CNN网络结构](pic/Fast_R-CNN网络结构.jpg)
 
            Fast R-CNN网络的输入时一整张图片和Selective
 Searchcong方法从图片中的获取的Proposals。首先通过若干卷积和池化层产生一个卷积特征图。然后对于每一个Proposal,RoI池化层从特征图中抽取定长的特征向量。每个特征向量送入一系列的全连接层；最后分支为两个兄弟输出层：一个使用softmax预测K+1个类别，一个对K类别做bounding-box
@@ -173,11 +173,7 @@ box回归的权重都使用零均值高斯分布初始化，标准差0.01\~0.001
 关键点
 ------
 
-     Proposal RoI投影计算方法 <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default">
-
-$$x^‘ = \lfloor \frac x S\rfloor  $$  ; 其中$$x^‘$$</script>是ROI在特征图Feature Map中的横坐标，x时RoI在原图中的横坐标;S是所有卷积层和池化层步长strides的乘积，纵坐标也是同样的计算方法。ROI在Feature
-
-Map中对应的区域后，就做RoI 最大池化转为固定长度的特征向量。
+     Proposal RoI投影计算方法 $$x^‘ = \lfloor \frac x S\rfloor  $$  ; 其中$$x^‘$$是ROI在特征图Feature Map中的横坐标，x时RoI在原图中的横坐标;S是所有卷积层和池化层步长strides的乘积，纵坐标也是同样的计算方法。ROI在Feature Map中对应的区域后，就做RoI 最大池化转为固定长度的特征向量。
 
 疑问点
 ------
