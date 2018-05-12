@@ -9,11 +9,11 @@
 
 <a href='R-CNN.md'>R-CNN</a>
 
-Fast R-CNN
+<a href='Fast R-CNN.md'>Fast R-CNN</a>
 
-Faster R-CNN
+<a href='Faster R-CNN.md'>Faster R-CNN</a>
 
-Mask R-CNN
+<a href='Mask R-CNN.md'>Mask R-CNN</a>
 
 RetinaNet
 
