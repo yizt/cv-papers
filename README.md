@@ -57,7 +57,7 @@ Online Object Tracking: A Benchmark
 
 <a href='Cascade R-CNN.md'>FCNT</a>
 
-GOTURN
+<a href='GOTURN.md'>GOTURN</a>
 
 C-COT
 
