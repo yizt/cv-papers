@@ -51,6 +51,12 @@ G-CNN
 
 
 
+## 人脸识别
+
+<a href='FaceNet.md'>FaceNet</a>
+
+
+
 ## 视觉跟踪
 
 Online Object Tracking: A Benchmark
