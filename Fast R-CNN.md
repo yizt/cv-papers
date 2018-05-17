@@ -3,7 +3,7 @@ Fast R-CNN
 
 
 
--   [依赖知识](#FastR-CNN-依赖知识)
+-   [依赖知识](#Fast R-CNN-依赖知识)
 
 -   [知识点](#FastR-CNN-知识点)
 
