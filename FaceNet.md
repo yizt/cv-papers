@@ -1,53 +1,11 @@
 FaceNet: A Unified Embedding for Face Recognition and Clustering
 ================================================================
 
--   [简介](#FaceNet:AUnifiedEmbeddingforFaceRecogni)
 
--   [相关工作](#FaceNet:AUnifiedEmbeddingforFaceRecogni)
 
--   [方法](#FaceNet:AUnifiedEmbeddingforFaceRecogni)
+[TOC]
 
-    -   [Triplet 损失](#FaceNet:AUnifiedEmbeddingforFaceRecogni)
 
-    -   [Triplet选择](#FaceNet:AUnifiedEmbeddingforFaceRecogni)
-
-    -   [深度卷积网络](#FaceNet:AUnifiedEmbeddingforFaceRecogni)
-
--   [数据集和评估](#FaceNet:AUnifiedEmbeddingforFaceRecogni)
-
-    -   [保留测试集](#FaceNet:AUnifiedEmbeddingforFaceRecogni)
-
-    -   [私人照片](#FaceNet:AUnifiedEmbeddingforFaceRecogni)
-
-    -   [学术数据集](#FaceNet:AUnifiedEmbeddingforFaceRecogni)
-
--   [实验](#FaceNet:AUnifiedEmbeddingforFaceRecogni)
-
-    -   [计算和精度权衡](#FaceNet:AUnifiedEmbeddingforFaceRecogni)
-
-    -   [CNN模型效果](#FaceNet:AUnifiedEmbeddingforFaceRecogni)
-
-    -   [图像质量敏感](#FaceNet:AUnifiedEmbeddingforFaceRecogni)
-
-    -   [嵌入维度](#FaceNet:AUnifiedEmbeddingforFaceRecogni)
-
-    -   [训练集大小](#FaceNet:AUnifiedEmbeddingforFaceRecogni)
-
-    -   [LFW上性能](#FaceNet:AUnifiedEmbeddingforFaceRecogni)
-
-    -   [Youtube Faces DB上性能](#FaceNet:AUnifiedEmbeddingforFaceRecogni)
-
-    -   [人脸聚类](#FaceNet:AUnifiedEmbeddingforFaceRecogni)
-
--   [总结](#FaceNet:AUnifiedEmbeddingforFaceRecogni)
-
--   [附录：Harmonic嵌入](#FaceNet:AUnifiedEmbeddingforFaceRecogni)
-
-    -   [Harmonic Triplet 函数函数](#FaceNet:AUnifiedEmbeddingforFaceRecogni)
-
-    -   [总结](#FaceNet:AUnifiedEmbeddingforFaceRecogni)
-
--   [参考文章](#FaceNet:AUnifiedEmbeddingforFaceRecogni)
 
         尽管人脸识别领域最近有显著进步[10, 14, 15,
 17]，有效的实施大规模的人脸验证和识别对当前的方法存在严重的挑战。本文提出一个系统，叫FaceNet，直接学习**人脸图像**到紧密**欧式空间**的一个**映射**，欧式空间中的**距离直接度量**人脸的**相似度**。一旦这个空间产生，诸如人脸识别、验证、聚类任务可以使用标准方法轻易实现，该方法用FaceNet **embeddings**作为**特征向量**。

@@ -1,29 +1,11 @@
 Faster R-CNN
 ============
 
--   [依赖知识](#FasterR-CNN-依赖知识)
+[TOC]
 
--   [R-CNN、Fast R-cnn、FasterR-CNN比较](#FasterR-CNN-R-CNN、FastR-cnn、FasterR-CNN)
 
--   [总体步骤](#FasterR-CNN-总体步骤)
 
-    -   [卷积层（conv layers）](#FasterR-CNN-卷积层（convlayers）)
 
-    -   [区域建议网络（region proposal network)](#FasterR-CNN-区域建议网络（regionproposalnetwor)
-
-    -   [感兴趣区域池化（ROI pooling）](#FasterR-CNN-感兴趣区域池化（ROIpooling）)
-
-    -   [分类和回归（classification&regression）](#FasterR-CNN-分类和回归（classification&regres)
-
--   [关键点](#FasterR-CNN-关键点)
-
-    -   [anchors](#FasterR-CNN-anchors)
-
-    -   [rpn网络](#FasterR-CNN-rpn网络)
-
--   [论文中结论总结](#FasterR-CNN-论文中结论总结)
-
--   [疑问点](#FasterR-CNN-疑问点)
 
            Faster R-CNN论文地址：<https://arxiv.org/pdf/1506.01497.pdf>。Faster
 R-CNN最大的问题是关键的RPN网络论文没有详细的描述;网上资料要么像论文一样，也忽略了详细说明；要么就是有不同的说法,无法甄别。不过论文给了开源的代码。估计需要结合代码才能把关键的RPN弄明白。本文参考：[一文读懂Faster R-CNN细节](https://zhuanlan.zhihu.com/p/31426458)，[Faster RCNN youtube](https://www.youtube.com/watch?v=v5bFVbQvFRk&index=1&list=PLkRkKTC6HZMzp28TxR_fJYZ-K8Yu3EQw0&pbjreload=10)

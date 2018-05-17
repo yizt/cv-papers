@@ -1,37 +1,8 @@
 FCNT-Visual Tracking with Fully Convolutional Networks
 ======================================================
 
--   [依赖技术](#FCNT-VisualTrackingwithFullyConvolution)
+[TOC]
 
--   [简介](#FCNT-VisualTrackingwithFullyConvolution)
-
--   [相关工作](#FCNT-VisualTrackingwithFullyConvolution)
-
--   [Feature深入分析](#FCNT-VisualTrackingwithFullyConvolution)
-
-    -   [观察 1](#FCNT-VisualTrackingwithFullyConvolution)
-
-    -   [观察 2](#FCNT-VisualTrackingwithFullyConvolution)
-
-    -   [观察 3](#FCNT-VisualTrackingwithFullyConvolution)
-
--   [提议算法](#FCNT-VisualTrackingwithFullyConvolution)
-
-    -   [Feature Map选择](#FCNT-VisualTrackingwithFullyConvolution)
-
-    -   [目标定位](#FCNT-VisualTrackingwithFullyConvolution)
-
-    -   [在线更新](#FCNT-VisualTrackingwithFullyConvolution)
-
--   [实验](#FCNT-VisualTrackingwithFullyConvolution)
-
-    -   [评估方法](#FCNT-VisualTrackingwithFullyConvolution)
-
-    -   [结论](#FCNT-VisualTrackingwithFullyConvolution)
-
-    -   [消除学习](#FCNT-VisualTrackingwithFullyConvolution)
-
--   [总结](#FCNT-VisualTrackingwithFullyConvolution)
 
 
 

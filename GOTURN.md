@@ -3,53 +3,10 @@ GOTURN-Learning to Track at 100 FPS with Deep Regression Networks
 
  
 
--   [简介](#GOTURN-LearningtoTrackat100FPSwithDeepR)
+[TOC]
 
--   [相关工作](#GOTURN-LearningtoTrackat100FPSwithDeepR)
 
-    -   [在线训练跟踪器](#GOTURN-LearningtoTrackat100FPSwithDeepR)
 
-    -   [基于模型的跟踪器](#GOTURN-LearningtoTrackat100FPSwithDeepR)
-
-    -   [其它神经网络跟踪框架](#GOTURN-LearningtoTrackat100FPSwithDeepR)
-
--   [方法](#GOTURN-LearningtoTrackat100FPSwithDeepR)
-
-    -   [方法概览](#GOTURN-LearningtoTrackat100FPSwithDeepR)
-
-    -   [输入/输出格式](#GOTURN-LearningtoTrackat100FPSwithDeepR)
-
-    -   [网络架构](#GOTURN-LearningtoTrackat100FPSwithDeepR)
-
-    -   [跟踪](#GOTURN-LearningtoTrackat100FPSwithDeepR)
-
--   [训练](#GOTURN-LearningtoTrackat100FPSwithDeepR)
-
-    -   [视频和图像训练](#GOTURN-LearningtoTrackat100FPSwithDeepR)
-
-    -   [学习运动的平衡性](#GOTURN-LearningtoTrackat100FPSwithDeepR)
-
-    -   [训练过程](#GOTURN-LearningtoTrackat100FPSwithDeepR)
-
--   [实验装置](#GOTURN-LearningtoTrackat100FPSwithDeepR)
-
-    -   [训练集](#GOTURN-LearningtoTrackat100FPSwithDeepR)
-
-    -   [测试集](#GOTURN-LearningtoTrackat100FPSwithDeepR)
-
--   [结果](#GOTURN-LearningtoTrackat100FPSwithDeepR)
-
-    -   [综合性能](#GOTURN-LearningtoTrackat100FPSwithDeepR)
-
-    -   [如何工作](#GOTURN-LearningtoTrackat100FPSwithDeepR)
-
-    -   [共性vs特性](#GOTURN-LearningtoTrackat100FPSwithDeepR)
-
-    -   [消除分析](#GOTURN-LearningtoTrackat100FPSwithDeepR)
-
--   [ 总结](#GOTURN-LearningtoTrackat100FPSwithDeepR)
-
--   [附录](#GOTURN-LearningtoTrackat100FPSwithDeepR)
 
 
  机器学习技术通常用于计算机视觉，因为它们能够**利用大量训练数据**来**提高性能**。不幸的是，大多数通用对象跟踪器仍然是从头开始**在线训练**的，并不能从可用于离线训练的大量视频中受益。我们提出了一种**离线训练**神经网络的方法，测试时以**100

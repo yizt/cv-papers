@@ -1,20 +1,10 @@
 # G-CNN: an Iterative Grid Based Object Detector
 
--   [概述](#G-CNN-概述)
+[TOC]
 
--   [G-CNN简介](#G-CNN-G-CNN简介)
 
--   [G-CNN训练](#G-CNN-G-CNN训练)
 
--   [G-CNN测试](#G-CNN-G-CNN测试)
 
--   [G-CNN效果与检测速度](#G-CNN-G-CNN效果与检测速度)
-
--   [G-CNN论文结论总结](#G-CNN-G-CNN论文结论总结)
-
--   [G-CNN局限性](#G-CNN-G-CNN局限性)
-
--   [疑问点](#G-CNN-疑问点)
 
 概述
 ====

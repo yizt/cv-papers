@@ -3,38 +3,11 @@ Fast R-CNN
 
 
 
--   [依赖知识](#FastR-CNN-依赖知识)
+[TOC]
 
--   [知识点](#FastR-CNN-知识点)
 
-    -   [ ROI](#FastR-CNN-ROI)
 
-    -   [end-to-end](#FastR-CNN-end-to-end)
-
-    -   [Spatial Pyramid Pooling](#FastR-CNN-SpatialPyramidPooling)
-
--   [网络结构和训练](#FastR-CNN-网络结构和训练)
-
-    -   [ 网络结构](#FastR-CNN-网络结构)
-
-    -   [RoI池化层](#FastR-CNN-RoI池化层)
-
-    -   [初始化预训练网络](#FastR-CNN-初始化预训练网络)
-
-    -   [训练](#FastR-CNN-训练)
-
-        -   [ 分级采样](#FastR-CNN-分级采样)
-
-        -   [ 联合训练](#FastR-CNN-联合训练)
-
-        -   [超参](#FastR-CNN-超参)
-
--   [关键点](#FastR-CNN-关键点)
-
--   [疑问点](#FastR-CNN-疑问点)
-
-       Fast
-R-CNN论文地址：<https://arxiv.org/pdf/1504.08083.pdf>。可以参考的文章：[Fast
+Fast R-CNN论文地址：<https://arxiv.org/pdf/1504.08083.pdf>。可以参考的文章：[Fast
 R-CNN学习总结](https://zhuanlan.zhihu.com/p/30368989)。有了R-CNN的基础Faster
 R-CNN相对容易理解。
 

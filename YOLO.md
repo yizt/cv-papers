@@ -1,31 +1,10 @@
 You Only Look Once Unified Real-Time Object Detection
 =====================================================
 
--   [依赖条件](#YouOnlyLookOnceUnifiedReal-TimeObjectDe)
+[TOC]
 
--   [网络结构](#YouOnlyLookOnceUnifiedReal-TimeObjectDe)
 
-    -   [Unified Detection-统一检测](#YouOnlyLookOnceUnifiedReal-TimeObjectDe)
 
-    -   [网络设计](#YouOnlyLookOnceUnifiedReal-TimeObjectDe)
-
-    -   [training-训练](#YouOnlyLookOnceUnifiedReal-TimeObjectDe)
-
-    -   [inference-预测](#YouOnlyLookOnceUnifiedReal-TimeObjectDe)
-
-    -   [YOLO的缺陷](#YouOnlyLookOnceUnifiedReal-TimeObjectDe)
-
--   [实验结果](#YouOnlyLookOnceUnifiedReal-TimeObjectDe)
-
-    -   [与其它实时系统比较](#YouOnlyLookOnceUnifiedReal-TimeObjectDe)
-
-    -   [VOC 2007错误分析](#YouOnlyLookOnceUnifiedReal-TimeObjectDe)
-
-    -   [组合Fast R-CNN 和 YOLO](#YouOnlyLookOnceUnifiedReal-TimeObjectDe)
-
-    -   [更加泛化的特征](#YouOnlyLookOnceUnifiedReal-TimeObjectDe)
-
--   [疑问点](#YouOnlyLookOnceUnifiedReal-TimeObjectDe)
 
 
 

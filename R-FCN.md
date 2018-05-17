@@ -1,29 +1,11 @@
 R-FCN
 =====
 
--   [概述](#R-FCN-概述)
+[TOC]
 
--   [知识依赖](#R-FCN-知识依赖)
 
-    -   [知识准备](#R-FCN-知识准备)
 
--   [R-FCN简介](#R-FCN-R-FCN简介)
 
-    -   [全局结构](#R-FCN-全局结构)
-
-    -   [Position-sensitive score maps & Position-sensitive RoI pooling](#R-FCN-Position-sensitivescoremaps&Posit)
-
-    -   [Position-sensitive的理解](#R-FCN-Position-sensitive的理解)
-
-    -   [回归定位简述](#R-FCN-回归定位简述)
-
--   [R-FCN训练](#R-FCN-R-FCN训练)
-
--   [R-FCN效果](#R-FCN-R-FCN效果)
-
--   [R-FCN论文总结](#R-FCN-R-FCN论文总结)
-
--   [R-FCN论文疑问点](#R-FCN-R-FCN论文疑问点)
 
 概述
 ----

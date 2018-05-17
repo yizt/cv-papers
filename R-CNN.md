@@ -1,37 +1,10 @@
 R-CNN
 =====
 
- 
+[TOC]
 
--   [依赖知识](#R-CNN-依赖知识)
 
--   [知识点](#R-CNN-知识点)
 
-    -   [selective search](#R-CNN-selectivesearch)
-
-    -   [NMS](#R-CNN-NMS)
-
-    -   [hard negative mining method](#R-CNN-hardnegativeminingmethod)
-
--   [总体步骤](#R-CNN-总体步骤)
-
-    -   [Region proposals生成](#R-CNN-Regionproposals生成)
-
-    -   [训练过程](#R-CNN-训练过程)
-
-        -   [a) 监督预训练](#R-CNN-a)监督预训练)
-
-        -   [b) 精调CNN](#R-CNN-b)精调CNN)
-
-        -   [c) 对象分类](#R-CNN-c)对象分类)
-
-        -   [d) 边框回归](#R-CNN-d)边框回归)
-
-    -   [测试过程](#R-CNN-测试过程)
-
--   [关键点](#R-CNN-关键点)
-
--   [疑问点](#R-CNN-疑问点)
 
 
 

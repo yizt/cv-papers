@@ -1,71 +1,11 @@
 Focal Loss for Dense Object Detection
 =====================================
 
--   [依赖知识](#FocalLossforDenseObjectDetection-依赖知识)
+[TOC]
 
--   [简介](#FocalLossforDenseObjectDetection-简介)
+       
 
--   [相关工作](#FocalLossforDenseObjectDetection-相关工作)
-
-    -   [典型对象检测器](#FocalLossforDenseObjectDetection-典型对象检测)
-
-    -   [Two-stage检测器](#FocalLossforDenseObjectDetection-Two-st)
-
-    -   [One-stage检测器](#FocalLossforDenseObjectDetection-One-st)
-
-    -   [类不均衡](#FocalLossforDenseObjectDetection-类不均衡)
-
-    -   [鲁棒性估计](#FocalLossforDenseObjectDetection-鲁棒性估计)
-
--   [Focal Loss](#FocalLossforDenseObjectDetection-FocalL)
-
-    -   [平衡交叉熵](#FocalLossforDenseObjectDetection-平衡交叉熵)
-
-    -   [Focal Loss定义](#FocalLossforDenseObjectDetection-FocalL)
-
-    -   [类别不均衡和模型初始化](#FocalLossforDenseObjectDetection-类别不均衡和)
-
-    -   [类别不均衡和Two-stage检测器](#FocalLossforDenseObjectDetection-类别不均衡和)
-
--   [RetinaNet 检测器](#FocalLossforDenseObjectDetection-Retina)
-
-    -   [特征金字塔主干网](#FocalLossforDenseObjectDetection-特征金字塔主)
-
-    -   [Anchors](#FocalLossforDenseObjectDetection-Anchor)
-
-    -   [分类子网络](#FocalLossforDenseObjectDetection-分类子网络)
-
-    -   [边框回归子网络](#FocalLossforDenseObjectDetection-边框回归子网)
-
-    -   [训练](#FocalLossforDenseObjectDetection-训练)
-
-        -   [Focal Loss ](#FocalLossforDenseObjectDetection-FocalL)
-
-        -   [初始化](#FocalLossforDenseObjectDetection-初始化)
-
-        -   [优化过程](#FocalLossforDenseObjectDetection-优化过程)
-
-    -   [预测](#FocalLossforDenseObjectDetection-预测)
-
--   [实验](#FocalLossforDenseObjectDetection-实验)
-
-    -   [平衡交叉熵](#FocalLossforDenseObjectDetection-平衡交叉熵.)
-
-    -   [Focal Loss](#FocalLossforDenseObjectDetection-FocalL)
-
-    -   [Focal Loss分析](#FocalLossforDenseObjectDetection-FocalL)
-
-    -   [在线困难样本挖掘(OHEM)](#FocalLossforDenseObjectDetection-在线困难样本)
-
-    -   [Hinge Loss](#FocalLossforDenseObjectDetection-HingeL)
-
-    -   [Anchor密度](#FocalLossforDenseObjectDetection-Anchor)
-
-    -   [速度VS准确率](#FocalLossforDenseObjectDetection-速度VS准确)
-
--   [总结](#FocalLossforDenseObjectDetection-总结)
-
-       我们知道object detection的算法主要可以分为两大类：two-stage
+​         我们知道object detection的算法主要可以分为两大类：two-stage
 detector和one-stage detector。前者是指类似Faster RCNN，RFCN这样需要region
 proposal的检测算法，这类算法可以达到很高的准确率，但是速度较慢。虽然可以通过减少proposal的数量或降低输入图像的分辨率等方式达到提速，但是速度并没有质的提升。后者是指类似YOLO，SSD这样不需要region
 proposal，直接回归的检测算法，这类算法速度很快，但是准确率不如前者。研究发现**正负样本极不均衡**是主要原因。

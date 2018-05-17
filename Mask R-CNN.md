@@ -1,29 +1,8 @@
 Mask R-CNN
 ==========
 
--   [依赖知识](#MaskR-CNN-依赖知识)
+[TOC]
 
--   [知识点](#MaskR-CNN-知识点)
-
-    -   [Instance Segmentation-实例分割](#MaskR-CNN-InstanceSegmentation-实例分割)
-
-    -   [Feature Pyramid Networks-特征金字塔网络](#MaskR-CNN-FeaturePyramidNetworks-特征金字塔网)
-
-        -   [自上而下的路径和横向连接](#MaskR-CNN-自上而下的路径和横向连接)
-
-    -   [ResNeXt](#MaskR-CNN-ResNeXt)
-
-    -   [ROI Align](#MaskR-CNN-ROIAlign)
-
--   [关键点](#MaskR-CNN-关键点)
-
-    -   [强化的基础网络](#MaskR-CNN-强化的基础网络)
-
-    -   [ROI Align](#MaskR-CNN-ROIAlign.1)
-
-    -   [解耦合](#MaskR-CNN-解耦合)
-
--   [疑问点](#MaskR-CNN-疑问点)
 
 
 

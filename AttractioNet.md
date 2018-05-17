@@ -1,50 +1,9 @@
 AttractioNet
 ============
 
--   [概述](#AttractioNet-概述)
+[TOC]
 
--   [贡献总结](#AttractioNet-贡献总结)
-
--   [AttractioNet](#AttractioNet-AttractioNet)
-
-    -   [主动生成bounding Box方法](#AttractioNet-主动生成boundingBox方法)
-
-    -   [ARN：Attend & Refine Network](#AttractioNet-ARN：Attend&RefineNetwork)
-
-    -   [训练细节](#AttractioNet-训练细节)
-
--   [实验结果](#AttractioNet-实验结果)
-
-    -   [数据源](#AttractioNet-数据源)
-
-    -   [实施细节](#AttractioNet-实施细节)
-
-    -   [（1）Object location performance](#AttractioNet-（1）Objectlocationperforman)
-
-        -   [实验结果](#AttractioNet-实验结果.1)
-
-        -   [ 模块提升细节](#AttractioNet-模块提升细节)
-
-        -   [运行时间细节](#AttractioNet-运行时间细节)
-
-    -   [（2）Generalization to unseen categories](#AttractioNet-（2）Generalizationtounseenc)
-
-        -   [实验结果_1](#AttractioNet-实验结果_1)
-
-        -   [实验结果_2 ](#AttractioNet-实验结果_2)
-
-    -   [（3）Object detection
-        performance](#AttractioNet-（3）Objectdetectionperforma)
-
-        -   [检测系统](#AttractioNet-检测系统)
-
-        -   [检测评估设置](#AttractioNet-检测评估设置)
-
-        -   [检测结果](#AttractioNet-检测结果)
-
--   [疑问点](#AttractioNet-疑问点)
-
-    ​
+​
 
 概述
 ====
@@ -523,13 +482,13 @@ $$
 $$
 
 
- 
 
 
 
 
 
- 
+
+
 
 
 

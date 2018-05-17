@@ -1,48 +1,11 @@
 SSD-Single Shot MultiBox Detector
 =================================
 
--   [依赖知识](#SSD-SingleShotMultiBoxDetector-依赖知识)
+[TOC]
 
--   [网络结构](#SSD-SingleShotMultiBoxDetector-网络结构)
+           
 
-    -   [基础网络](#SSD-SingleShotMultiBoxDetector-基础网络)
-
-    -   [多尺寸特征图检测](#SSD-SingleShotMultiBoxDetector-多尺寸特征图检测)
-
-    -   [卷积器检测](#SSD-SingleShotMultiBoxDetector-卷积器检测)
-
-    -   [Default boxes-默认边框](#SSD-SingleShotMultiBoxDetector-Defaultb)
-
-    -   [训练过程](#SSD-SingleShotMultiBoxDetector-训练过程)
-
-        -   [匹配策略](#SSD-SingleShotMultiBoxDetector-匹配策略)
-
-        -   [训练目标](#SSD-SingleShotMultiBoxDetector-训练目标)
-
-        -   [困难负样本挖掘](#SSD-SingleShotMultiBoxDetector-困难负样本挖掘)
-
-    -   [预测过程](#SSD-SingleShotMultiBoxDetector-预测过程)
-
--   [关键点](#SSD-SingleShotMultiBoxDetector-关键点)
-
-    -   [default boxes尺寸和长宽比](#SSD-SingleShotMultiBoxDetector-defaultb)
-
-    -   [数据增广](#SSD-SingleShotMultiBoxDetector-数据增广)
-
--   [实验结果](#SSD-SingleShotMultiBoxDetector-实验结果)
-
-    -   [数据增广非常关键](#SSD-SingleShotMultiBoxDetector-数据增广非常关键)
-
-    -   [更多 default
-        box形状效果更佳](#SSD-SingleShotMultiBoxDetector-更多defaul)
-
-    -   [Atrous 卷积更快](#SSD-SingleShotMultiBoxDetector-Atrous卷积)
-
-    -   [不同分辨率的输出层效果更佳](#SSD-SingleShotMultiBoxDetector-不同分辨率的输出)
-
--   [疑问点](#SSD-SingleShotMultiBoxDetector-疑问点)
-
-           本文使用单个深度神经网络来做目标检测。我们的方法称为SSD;将bounding
+​         本文使用单个深度神经网络来做目标检测。我们的方法称为SSD;将bounding
 boxes输出离散化为在每个feature
 map上的一组不同长宽比及不同尺寸的一组默认边框。相对于需要对象提议的方法，SSD非常简单，因为它完全消除了提案生成和随后的像素或特征重新采样阶段，并将所有计算封装在单个网络中。
 
