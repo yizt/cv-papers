@@ -17,7 +17,7 @@ R-CNN: Rich feature hierarchies for accurate object detection and semantic segme
 依赖知识
 --------
 
-    a） 熟悉CNN，以及常用的CNN分类网络AlexNet,VGG,GoogLeNet等
+    a） 熟悉CNN，以及常用的CNN分类网络AlexNet,VGG等
 
     b )  了解预训练、迁移学习
 
@@ -34,26 +34,21 @@ a) 使用Efficient Graph-Based Image Segmentation获取原始图片分割区域
 
 b) 根据各分割区域的颜色、小大、纹理、吻合等方面相似度合并分割区域。
 
-详见：[selective
-search算法](http://blog.csdn.net/lianhuijuan/article/details/64443008?locationNum=1&fps=1)，论文地址：<http://www.huppelen.nl/publications/selectiveSearchDraft.pdf>
+详见：[selective search算法](http://blog.csdn.net/lianhuijuan/article/details/64443008?locationNum=1&fps=1)，论文地址：<http://www.huppelen.nl/publications/selectiveSearchDraft.pdf>
 
 ### NMS
 
 
- non maximum suppression: 中文名非极大值抑制. 非极大值抑制算法（Non-maximum
-suppression, NMS）的本质是搜索局部极大值，抑制非极大值元素。
+ non maximum suppression: 中文名**非极大值抑制**. 非极大值抑制算法（Non-maximum suppression, NMS）的本质是搜索**局部极大值**，抑制非极大值元素。
 
 详见：<http://blog.csdn.net/u014365862/article/details/52653834> 或<http://blog.csdn.net/shuzfan/article/details/52711706>
 
 ### hard negative mining method
 
 
-首先是negative，即负样本，其次是hard，说明是困难样本，也就是说在对负样本分类时候，loss比较大（label与prediction相差较大）的那些样本，也可以说是容易将负样本看成正样本的那些样本。
+首先是negative，即负样本，其次是hard，说明是**困难样本**，也就是说在对负样本分类时候，**loss比较大**（label与prediction相差较大）的那些样本，也可以说是容易将负样本看成正样本的那些样本。
 
-        比如:
-要在一张厨房的图像里判别一只蜘蛛。由于厨房的图像里objects（负样本）可能有许多，蜘蛛（正样本）样本却很少。这时候hard
-mining的意义就是选出一些对训练网络有帮助的负样本部分，而不是所有负样本，来训练网络。比如说，training过程中，被当前模型误判成蜘蛛最厉害的那些负样本可以被挑出来，参与loss运算以及back
-propagation。
+        比如:要在一张厨房的图像里判别一只**蜘蛛**。由于厨房的图像里objects(**负样本**)可能有许**多**，蜘蛛（**正样本**）样本却很**少**。这时候hard mining的意义就是**选出**一些**对训练网络有帮助**的**负样本**部分，而不是所有负样本，来训练网络。比如说，training过程中，被当前模型**误判成蜘蛛最厉害**的那些**负样本**可以被挑出来，参与loss运算以及back propagation。
 
 详见：<https://www.zhihu.com/question/46292829> ；论文地址：<https://cs.brown.edu/~pff/papers/lsvm-pami.pdf>
 
@@ -106,7 +101,7 @@ decisions for each module, describe their test-time usage,
 detail how their parameters are learned, and show detection
 results on PASCAL VOC 2010-12 and on ILSVRC2013
 
-​         我们的目标检测系统包含三个模块。第一个，产生类别无关的region proposals。这些proposals定义了一个候选检测区域的集合；第二个是一个大型卷积神经网络，用于从每个region抽取特定大小的特征向量；第三个是一个类别相关的线性SVM。本节，将展示每个模块的设计，并介绍他们的测试阶段的用法，以及参数是如何学习的细节，最后给出在PASCAL VOC 2010-12和ILSVRC2013上的检测结果。
+​         我们的目标检测系统包含三个模块。第一个，产生类别无关的**region proposals**。这些proposals定义了一个候选检测区域的集合；第二个是一个大型卷积神经网络，用于从每个region抽取特定大小的**特征向量**；第三个是一个类别相关的线性**SVM**。本节，将展示每个模块的设计，并介绍他们的测试阶段的用法，以及参数是如何学习的细节，最后给出在PASCAL VOC 2010-12和ILSVRC2013上的检测结果。
 
 ### 2.1 模块设计
 
@@ -125,8 +120,8 @@ to the particular region proposal method, we use selective
 search to enable a controlled comparison with prior
 detection work (e.g., [39, 41]).
 
-​       近来有很多研究都提出了生成类别无关region proposals的方法。包括objectness[1]，selective search[39]，category-independent object proposals[14]，constrained parametric min-cuts (CPMC)[5]，multi-scale combinatorial grouping[3]，以及Cires¸an et al. [6]，使用CNN在规律空间块裁剪上来检测有丝分裂细胞，也算是一种特殊的region proposa方法。由于R-CNN对特定region proposal算法是不关心的，所以我们采用selective
-search以便和先前的工作[39, 41]进行可控的比较。
+​       近来有很多研究都提出了生成类别无关region proposals的方法。包括objectness[1]，selective search[39]，category-independent object proposals[14]，constrained parametric min-cuts (CPMC)[5]，multi-scale combinatorial grouping[3]，以及Cires¸an et al. [6]，使用CNN在规律空间块裁剪上来检测有丝分裂细胞，也算是一种特殊的region proposa方法。由于**R-CNN**对**特定region proposal算法**是**不关心**的，所以我们采用selective
+search以便和先前的工作[39, 41]进行**可控的比较**。
 
 #### Feature extraction
 
@@ -138,7 +133,7 @@ a mean-subtracted 227 × 227 RGB image through five convolutional
 layers and two fully connected layers. We refer
 readers to [24, 25] for more network architecture details
 
-​       我们使用Krizhevsky et al. [25]所描述的CNN的一个Caffe[24]实现版本对每个region proposal抽取一个4096维的特征向量。通过前向传播一个减去均值后277×277大小的RGB图像到五个卷积层和两个全连接层来计算特征。读者可以参考[24, 25]获得网络架构的更多细节。
+​       我们使用Krizhevsky et al. [25]所描述的CNN的一个Caffe[24]实现版本对每个region proposal抽取一个**4096维的特征向量**。通过前向传播一个**减去均值**后277×277大小的RGB图像到五个卷积层和两个全连接层来计算特征。读者可以参考[24, 25]获得网络架构的更多细节。
 
 In order to compute features for a region proposal, we
 must first convert the image data in that region into a form
@@ -154,7 +149,9 @@ box (we use p = 16). Figure 2 shows a random sampling
 of warped training regions. Alternatives to warping are discussed
 in Appendix A
 
-​        为了计算region proposal的特征，首先需要将输入的图像数据转变成CNN可以接受的方式(我们架构中的CNN只能接受固定227 × 227尺寸)。任意形状的region变换有很多办法，我们使用了最简单的一种。无论region proposal是什么尺寸或长宽比，我们都把环绕该区域的紧贴边框内的所有像素变形到需要的尺寸。变形之前，先放大边框以便在新的变形后的尺寸上，保证变形后图像上下文的p个像素都围绕在原始框上(我们使用p=16)。图Figure 2展示了一些变形后的region样例。变形的候选方法在附录A中有讨论。
+​        为了计算region proposal的特征，首先需要将输入的图像数据转变成CNN可以接受的方式(我们架构中的CNN只能接受**固定227 × 227**尺寸)。任意形状的region变换有很多办法，我们使用了最简单的一种。无论region proposal是什么尺寸或长宽比，我们都把环绕该区域的**紧贴边框内**的**所有像素**变形到需要的尺寸。变形之前，先**放大边框**以便在新的变形后的尺寸上，保证变形后图像上下文的p个像素都围绕在原始边框框上(我们使用p=16)。图Figure 2展示了一些变形后的region样例。变形的候选方法在附录A中有讨论。
+
+![](pic/R-CNN-fig2.jpg)
 
 ### 2.2 测试阶段检测
 
@@ -170,7 +167,7 @@ that rejects a region if it has an intersection-over-union
 (IoU) overlap with a higher scoring selected region
 larger than a learned threshold.
 
-​        在测试阶段，在测试图像上使用selective search抽取约2000个region proposals(所有实验都采用selective search’s “fast mode” )。然后变形每一个region proposal，再通过CNN前向传播计算出特征。然后，对于每个类别，我们使用已训练好的类别相关的SVM给特征向量打分。然后给出一张图像中所有的scored regions，然后使用贪婪非极大抑制算法(每个类别是独立进行的)，如果一个region和那些选中有较高评分的region的IoU值大于阈值，则会剔除。
+​        在测试阶段，在测试图像上使用selective search**抽取约2000个region proposals**(所有实验都采用selective search’s “fast mode” )。然后**变形每一个region proposal**，再通过**CNN**前向传播**计算**出**特征**。然后，对于每个类别，我们使用已训练好的类别相关的**SVM**给特征向量**打分**。然后给出一张图像中所有的scored regions，然后使用贪婪非极大抑制算法(**每个类别**是**独立进行**的)，如果一个region和那些选中有较高评分的region的IoU值大于阈值，则会**剔除**。
 
 #### Run-time analysis. 
 
@@ -182,7 +179,7 @@ encodings. The features used in the UVA detection system
 [39], for example, are two orders of magnitude larger than
 ours (360k vs. 4k-dimensional).
 
-​        两个特性让检测变得很高效。首先，所有的CNN参数都是跨类别共享的。其次，通过CNN计算的特征向量相比其他通用方法（比如spatial pyramids 使用的bag-of-visual-word encodings）维度是很低的。UVA检测系统[39]的特征比我们的要多两个数量级(360k vs 4k)。
+​        两个特性让检测变得很高效。首先，所有的**CNN参数**都是**跨类别共享**的。其次，通过CNN计算的特征向量相比其他通用方法（比如spatial pyramids 使用的bag-of-visual-word encodings）**维度**是**很低**的。UVA检测系统[39]的特征比我们的要多两个数量级(360k vs 4k)。
 
 The result of such sharing is that the time spent computing
 region proposals and features (13s/image on a GPU
@@ -194,7 +191,7 @@ a single matrix-matrix product. The feature matrix is typically
 2000×4096 and the SVM weight matrix is 4096×N,
 where N is the number of classes
 
-​        这种共享的结果就是计算region proposals和特征的耗时可以分摊到所有类别的头上（GPU：每张图13s，CPU：每张图53s）。唯一类别相关的计算是特征和SVM权重的乘积运算和NMS。实践中，所有的点积都可以批量化成一个单独的矩阵和矩阵的乘积运算。特征矩阵的典型大小是2000×4096，SVM权重的矩阵是4096xN，其中N是类别的数量。
+​        这种共享的结果就是计算region proposals和特征的耗时可以分摊到所有类别的头上(GPU：每张图13s，CPU：每张图53s)。唯一类别相关的计算是特征和SVM权重的乘积运算和NMS。实践中，所有的**点积**都可以批量化成一个单独的**矩阵和矩阵**的**乘积运算**。特征矩阵的典型大小是2000×4096，SVM权重的矩阵是4096xN，其中N是类别的数量。
 
 This analysis shows that R-CNN can scale to thousands
 of object classes without resorting to approximate techniques,
@@ -207,17 +204,9 @@ be two orders of magnitude slower while requiring 134GB
 of memory just to store 100k linear predictors, compared to
 just 1.5GB for our lower-dimensional features.
 
-​       分析表明R-CNN可以扩展到上千个类别，而不需要借助于近似技术（如hashing）。即使有10万个类别,矩阵乘法在多核CPU上只需要10秒而已。但这种高效不仅仅是因为使用了region proposals和共享特征。UVA系统,由于高维特征，需要134GB的内存来存10万个线性预测器，而我们只要1.5GB，比我们高了两个数量级。
+​       分析表明**R-CNN可以扩展**到**上千个类别**，而不需要借助于**近似技术**（如hashing）。即使有**10万个类别**,矩阵乘法在多核CPU上只需要**10秒**而已。但这种高效不仅仅是因为使用了region proposals和共享特征。UVA系统,由于高维特征，需要**134GB的内存**来存**10万个线性预测器**，而**我们只要1.5GB**，比我们高了两个数量级。
 
-It is also interesting to contrast R-CNN with the recent
-work from Dean et al. on scalable detection using DPMs
-and hashing [8]. They report a mAP of around 16% on VOC
-2007 at a run-time of 5 minutes per image when introducing
-10k distractor classes. With our approach, 10k detectors can
-run in about a minute on a CPU, and because no approximations
-are made mAP would remain at 59% (Section 3.2).
-
-​        更有趣的是R-CCN和最近Dean et al.使用DPMs和hashing [8]在可扩展检测工作的对比。当引入10k个类别时， 运行时每张图耗时5 mins，在VOC2007上的mAP值约16%。我们的方法10k个检测器,可以在单CPU上一分钟跑完；由于没有做近似，mAP值维持在59%(3.2节)。
+​        更有趣的是R-CCN和最近Dean et al.使用DPMs和hashing [8]在可扩展检测工作的对比。当引入**10k个类别**时， 运行时每张图**耗时5 mins**，在VOC2007上的**mAP值约16%**。我们的方法10k个检测器,可以在单CPU上1分钟**跑**完；由于没有做近似，**mAP值**维持在**59%**(3.2节)。
 
 ### 2.3 训练
 
@@ -234,16 +223,14 @@ percentage points higher on the ILSVRC2012 classification
 validation set. This discrepancy is due to simplifications in
 the training process.
 
-​        我们在大型辅助训练集ILSVRC2012分类数据集(没有标注边框)上预训练了CNN。预训练采用了Caffe的CNN库[24]。简单地说，我们的CNN十分接近Krizhevsky et al. [25]的网络的性能，在ILSVRC2012分类验证集在top-1错误率上比他们高2.2%。差异主要来自于训练过程的简化。
+​        我们在大型辅助训练集ILSVRC2012**分类数据集**(没有标注边框)上预训练了CNN。预训练采用了Caffe的CNN库[24]。简单地说，我们的CNN十分接近Krizhevsky et al. [25]的网络的性能，在ILSVRC2012分类验证集在top-1错误率上比他们高2.2%。差异主要来自于**训练过程的简化**。
 
 #### Domain-specific fine-tuning. 
 
 To adapt our CNN to the new task (detection) and the new domain (warped proposal windows), we continue stochastic gradient descent (SGD) training of the CNN parameters using only warped region
-proposals. Aside from replacing the CNN’s ImageNet specific 1000-way classification layer with a randomly initialized (N + 1)-way classification layer (where N is the number of object classes, plus 1 for background), the CNN architecture is unchanged. For VOC, N = 20 and for ILSVRC2013, N = 200. We treat all region proposals with≥ 0.5 IoU overlap with a ground-truth box as positives for that box’s class and the rest as negatives. We start SGD at a learning rate of 0.001 (1/10th of the initial pre-training rate), which allows fine-tuning to make progress while not clobbering the initialization. In each SGD iteration, we uniformly sample 32 positive windows (over all classes) and 96 background windows to construct a mini-batch of size
+proposals. Aside from replacing the CNN’s ImageNet specific 1000-way classification layer with a randomly initialized (N + 1)-way classification layer (where N is the number of object classes, plus 1 for background), the CNN architecture is unchanged. For VOC, N = 20 and for ILSVRC2013, N = 200. We treat all region proposals with≥ 0.5 IoU overlap with a ground-truth box as positives for that box’s class and the rest as negatives. We start SGD at a learning rate of 0.001 (1/10th of the initial pre-training rate), which allows fine-tuning to make progress while not clobbering the initialization. In each SGD iteration, we uniformly sample 32 positive windows (over all classes) and 96 background windows to construct a mini-batch of size 128. We bias the sampling towards positive windows because they are extremely rare compared to background.
 
-128. We bias the sampling towards positive windows because they are extremely rare compared to background.
-
-​       为了让我们的CNN适应新的任务(即检测任务)和新的领域(变形后的提议窗口)。我们只使用变形后的推荐区域对CNN参数进行SGD训练。我们替掉了ImageNet专用的1000路分类层，换成了一个随机初始化的(N+1)路分类层，其中N是类别数，1代表背景，而卷积部分都没有改变。对于VOC，N=20，对于ILSVRC2013，N=200。我们对待所有的推荐区域，如果其和真实标注的框的IoU重叠>= 0.5就认为是正例，否则就是负例。SGD开始的learning_rate为0.001（是初始化预训练时的十分之一），这使得调优得以有效进行而不会破坏初始化的成果。每轮SGD迭代，我们统一使用32个正例窗口（跨所有类别）和96个背景窗口，即每个mini-batch的大小是128。另外我们倾向于采样正例窗口，因为和背景相比他们很稀少。
+​       为了让我们的CNN适应新的任务(即检测任务)和新的领域(变形后的proposal窗口)。我们只使用warped region proposals对CNN参数进行SGD训练。我们**替掉**了ImageNet专用的1000路**分类层**，换成了一个随机初始化的(N+1)路分类层，其中N是类别数，1代表背景，而**卷积部分都没有改变**。对于VOC，N=20，对于ILSVRC2013，N=200。我们将所有与ground-truth边框的**IoU重叠>= 0.5**的region proposals作为**正例**，**其它作为负例**。SGD开始的学习率为0.001(是初始化**预训练**时的**十分之一**)，这使得精调得以有效进行而不会破坏初始化的成果。每轮SGD迭代，我们统一使用**32个正例**窗口(跨所有类别)和**96个背景**窗口，即每个mini-batch的大小是128。另外我们**倾向于**采样**正例**窗口，因为和背景相比他们很**稀少**。
 
 #### Object category classifiers. 
 
@@ -262,7 +249,7 @@ mAP by 5 points. Similarly, setting it to 0 decreased mAP
 by 4 points. Positive examples are defined simply to be the
 ground-truth bounding boxes for each class.
 
-​        思考一下检测汽车的二分类器。很显然，一个图像区域紧紧包裹着一辆汽车应该就是正样本。类似的，应该看不到任何汽车的背景区域，就是负样本。较为确定的是怎样标注哪些只和汽车部分重叠的区域。我们使用IoU重叠阈值来解决这个问题，低于这个阈值的就是负例。这个阈值我们选择了0.3，在验证集上网格搜索{0, 0.1, … 0.5}集合选中的。我们发现认真选择这个阈值很重要。如果设置为0.5，如[39]，可以降低mAP 5个点，设置为0，就会降低4个点。正样本就是每个类的ground-truth边框。
+​        思考一下检测汽车的二分类器。很显然，一个图像区域紧紧包裹着一辆汽车应该就是正样本。类似的，应该看不到任何汽车的背景区域，就是负样本。**较为不确定**的是怎样标注哪些只和汽车**部分重叠**的区域。我们使用**IoU重叠阈值**来解决这个问题，低于这个阈值的就是负例。这个阈值我们选择了**0.3**，在验证集上网格搜索{0, 0.1, … 0.5}集合选中的。我们发现认真选择这个**阈值很重要**。如果设置为0.5，如[39]，可以降低mAP 5个点，设置为0，就会降低4个点。正样本就是每个类的ground-truth边框。
 
 Once features are extracted and training labels are applied,
 we optimize one linear SVM per class. Since the
@@ -271,7 +258,7 @@ standard hard negative mining method [17, 37]. Hard negative
 mining converges quickly and in practice mAP stops
 increasing after only a single pass over all images.
 
-​        一旦特征提取出来，就应用标签数据，然后为每个类别优化一个线性SVM。由于训练数据太大，难以装进内存，我们选择了标准的困难负样本挖掘方法[17, 37]。 困难负样本挖掘收敛很快，实践中只要所有图像经过一轮 ，mAP就可以基本停止提升了。
+​        一旦特征提取出来，就应用标签数据，然后为每个类别优化一个线性SVM。由于训练数据太大，难以装进内存，我们选择了标准的**困难负样本挖掘**方法[17, 37]。 困难负样本挖掘**收敛很快**，实践中只要所有图像经过一轮 ，mAP就可以基本停止提升了。
 
 In Appendix B we discuss why the positive and negative
 examples are defined differently in fine-tuning versus SVM
@@ -279,7 +266,7 @@ training. We also discuss the trade-offs involved in training
 detection SVMs rather than simply using the outputs from
 the final softmax layer of the fine-tuned CNN.
 
-​        附录B中，我们讨论了，正例和负例在精调和SVM训练两个阶段定义不同。我们也会讨论训练检测SVM的权衡问题，而不只是简单地使用来自精调后的CNN的最终softmax层的输出。
+​        附录B中，我们讨论了，**正例和负例**在精调和SVM训练两个阶段**定义不同**。我们也会讨论训练检测SVM的权衡问题，而不只是简单地使用来自精调后的CNN的最终softmax层的输出。
 
 ### 2.4 PASCAL VOC 2010-12上结果
 
@@ -287,12 +274,12 @@ the final softmax layer of the fine-tuned CNN.
 
 ​        Following the PASCAL VOC best practices [15], we validated all design decisions and hyperparameters on the VOC 2007 dataset (Section 3.2). For final results on the VOC 2010-12 datasets, we fine-tuned the CNN on VOC 2012 train and optimized our detection SVMs on VOC 2012 trainval. We submitted test results to the evaluation server only once for each of the two major algorithm variants (with and without bounding box regression).
 
-​        跟随PASCAL VOC最佳实践[15],我们在VOC 2007数据集上(3.2节)验证了所有的设计决策和超参。在VOC 2012训练集上精调CNN，并且在VOC 2012训练验证集上优化检测的SVM分类器，得到了在VOC 2010-12数据集上的最终结果。我们对两种主要算法(带边框回归和不带边框回归)都只提交一次测试结果到评估服务器上.
+​        跟随PASCAL VOC最佳实践[15],我们在VOC 2007数据集上(3.2节)验证了所有的设计决策和超参。在VOC 2012训练集上精调CNN，并且在VOC 2012训练验证集上优化检测的SVM分类器，得到了在VOC 2010-12数据集上的最终结果。我们对两种主要算法(**带边框回归**和**不带边框回归**)都只提交一次测试结果到评估服务器上.
 
 Table 1 shows complete results on VOC 2010. We compare our method against four strong baselines, including SegDPM [18], which combines DPM detectors with the output of a semantic segmentation system [4] and uses additional inter-detector context and image-classifier rescoring. The most germane comparison is to the UVA system from Uijlings et al. [39], since our systems use the same region
 proposal algorithm. To classify regions, their method builds a four-level spatial pyramid and populates it with densely sampled SIFT, Extended Opponent SIFT, and RGBSIFT descriptors, each vector quantized with 4000-word codebooks. Classification is performed with a histogram intersection kernel SVM. Compared to their multi-feature, non-linear kernel SVM approach, we achieve a large improvement in mAP, from 35.1% to 53.7% mAP, while also being much faster (Section 2.2). Our method achieves similar performance (53.3% mAP) on VOC 2011/12 test.
 
-​        表Table 1展示了在VOC 2010上的完整结果。将我们的方法与4个基准比较，包括SegDPM [18],组合了DPM检测器和一个语义分割系统[4]的输出,并且使用了额外的内部检测器环境和图像分离器重新打分。最恰当的比较是与来自Uijlings et al. [39]的UVA 系统，因为我们的系统使用了同样的region proposal提议框。为了分类regions，它们的方法构建了一个4层空间金字塔，并用密集采样SIFT、扩展的OpponentSIFT和RGBSIFT描述符填充，每个向量用4000字的码本量化。使用一个直方图和核SVM的交集做分类。与它们的多特征、非线性核SVM方法相比，我们在mAP上获得较大的提升，从35.1%到53.7，同时也更快(见2.2节)。我们的方法在VOC 2011/12测试集上达到类似的性能：53.3%的mAP值。
+​        表Table 1展示了在VOC 2010上的完整结果。将我们的**方法与4个基准比较**，包括SegDPM [18],组合了DPM检测器和一个语义分割系统[4]的输出,并且使用了额外的内部检测器环境和图像分离器重新打分。最恰当的比较是与来自Uijlings et al. [39]的**UVA** 系统，因为我们的系统使用了**同样的region proposal**。为了分类regions，它们的方法构建了一个4层空间金字塔，并用密集采样SIFT、扩展的OpponentSIFT和RGBSIFT描述符填充，每个向量用4000字的码本量化。使用一个直方图和核SVM的交集做分类。与它们的多特征、非线性核SVM方法相比，我们在mAP上获得较大的提升，从35.1%到53.7，同时也更快(见2.2节)。我们的方法在VOC 2011/12测试集上达到类似的性能：53.3%的mAP值。
 
 ### 2.5 ILSVRC2013 上检测结果
 
@@ -304,7 +291,7 @@ for PASCAL VOC. We followed the same protocol of submitting
 test results to the ILSVRC2013 evaluation server
 only twice, once with and once without bounding-box regression.
 
-​       在200类的ILSVRC2013检测数据集上使用了与PASCAL VOC相同的超参。同样仅仅提交两次测试结果到ILSVRC2013评估服务器，一次带边框回归，一次不带。
+​       在**200类**的ILSVRC2013检测数据集上使用了与PASCAL VOC相同的超参。同样仅仅提交两次测试结果到ILSVRC2013评估服务器，一次带边框回归，一次不带。
 
 Figure 3 compares R-CNN to the entries in the ILSVRC 2013 competition and to the post-competition OverFeat result[34]. R-CNN achieves a mAP of 31.4%, which is significantly
 ahead of the second-best result of 24.3% from OverFeat. To give a sense of the AP distribution over
@@ -418,7 +405,7 @@ All R-CNN variants strongly outperform the three DPM baselines (Table 2 rows 8-1
 
 Most results in this paper use the network architecture from Krizhevsky et al. [25]. However, we have found that the choice of architecture has a large effect on R-CNN detection performance. In Table 3 we show results on VOC 2007 test using the 16-layer deep network recently proposed by Simonyan and Zisserman [43]. This network was one of the top performers in the recent ILSVRC 2014 classification challenge. The network has a homogeneous structure consisting of 13 layers of 3 × 3 convolution kernels, with five max pooling layers interspersed, and topped with three fully-connected layers. We refer to this network as “O-Net” for OxfordNet and the baseline as “T-Net” for TorontoNet.
 
-​        本文中的大部分结果所采用的架构都来自于Krizhevsky et al. [25]。然而，我们也发现架构的选择对于R-CNN的检测性能会有很大的影响。表Table 3中我们展示了VOC2007测试时采用了16层的深度网络，由Simonyan和Zisserman[43]刚刚提出来。这个网络在ILSVRC 2014分类挑战上是最佳表现。这个网络采用了完全同构的13层3×3卷积核，中间穿插了5个最大池化层，顶部有三个全连接层。我们称这个网络为O-Net表示OxfordNet，将我们的基准网络称为T-Net表示TorontoNet。
+​         本文中的大部分结果所采用的架构都来自于Krizhevsky et al. [25] (AlexNet)。然而，我们也发现架构的选择对于R-CNN的检测性能会有很大的影响。表Table 3中我们展示了VOC2007测试时采用了16层的深度网络，由Simonyan和Zisserman[43] (即VGG)刚刚提出来。这个网络在ILSVRC 2014分类挑战上是最佳表现。这个网络采用了完全同构的13层3×3卷积核，中间穿插了5个最大池化层，顶部有三个全连接层。我们称这个网络为O-Net表示OxfordNet，将我们的基准网络称为T-Net表示TorontoNet。
 
 
 
@@ -598,48 +585,16 @@ fier was trained on randomly sampled negative examples rather than on the subset
 
 This result shows that it’s possible to obtain close to the same level of performance without training SVMs after fine-tuning. We conjecture that with some additional tweaks to fine-tuning the remaining performance gap may be closed. If true, this would simplify and speed up R-CNN training with no loss in detection performance.
 
-​          这个结果表明不训练SVMs也可以接近相同级别的性能。我们推测在精调上做一些额外的调整，性能差距会接近。如果果真如此，这将简化和加速R-CNN训练，而不损失检测性能。
+​        这个结果表明不训练SVMs也可以接近相同级别的性能。我们推测在精调上做一些额外的调整，性能差距会接近。如果果真如此，这将简化和加速R-CNN训练，而不损失检测性能。
 
 ### C 边框回归
 
-We use a simple bounding-box regression stage to improve
-localization performance. After scoring each selective
-search proposal with a class-specific detection SVM,
-we predict a new bounding box for the detection using a
-class-specific bounding-box regressor. This is similar in
-spirit to the bounding-box regression used in deformable
-part models [17]. The primary difference between the two
-approaches is that here we regress from features computed
-by the CNN, rather than from geometric features computed
+We use a simple bounding-box regression stage to improve localization performance. After scoring each selective search proposal with a class-specific detection SVM, we predict a new bounding box for the detection using a class-specific bounding-box regressor. This is similar in spirit to the bounding-box regression used in deformable part models [17]. The primary difference between the two approaches is that here we regress from features computed by the CNN, rather than from geometric features computed
 on the inferred DPM part locations.
 
+​         我们使用一个简单的边框回归阶段来提升定位性能。在使用一个类别相关的检测SVM给每个selective search proposal评分后，使用个类别相关的边框回归器来预测一个新的边框。在思想上类似于deformable part models [17]中使用的边框回归。这两种方法之间的主要区别在于，这里我们回归使用的是从CNN计算的特征，而不是从推断的DPM部分位置计算的几何特征。
 
-
-The input to our training algorithm is a set of N training
-pairs {(P
-i
-, Gi
-)}i=1,...,N , where P
-i = (P
-i
-x
-, Pi
-y
-, Pi
-w, Pi
-h
-)
-specifies the pixel coordinates of the center of proposal P
-i
-’s
-bounding box together with P
-i
-’s width and height in pixels.
-Hence forth, we drop the superscript i unless it is needed.
-Each ground-truth bounding box G is specified in the same
-way: G = (Gx, Gy, Gw, Gh). Our goal is to learn a transformation
-that maps a proposed box P to a ground-truth box
-G.
+​        训练算法的输入是N个训练对$\{(P^i, G^i\}_{i=1,...,N}$,这里$P^i=(P^i_x,P^i_y,P^i_w,P^i_h)$ 代表proposal的中心点坐标和边框的宽度和高度(单位像素)。因此在非必需情况下我们省略上标$i$ 。每个ground-true边框使用相同方式表示：$G=(G_x,G_y,G_w,G_h)$ 。我们的目标是学习一个函数将proposal边框P映射到groud-true边框G。
 
 
 
@@ -652,50 +607,40 @@ After learning these functions, we can transform an input
 proposal P into a predicted ground-truth box Gˆ by applying
 the transformation
 
+​        我们使用4个函数$d_x(P),d_y(P),d_w(P),d_h(P)$ 来表示变换参数。前两个代表P边框中心比例不变的平移，后两个是是P边框宽度和高度对数空间的转换。学习这些函数后，我们可以使用如下公式，将一个输入的proposal P转换为预测的ground-true $\hat G$ 
 
+​        
 
-Each function d?(P) (where ? is one of x, y, h, w) is
-modeled as a linear function of the pool5
-features of proposal
-P, denoted by φ5
-(P). (The dependence of φ5
-(P)
-on the image data is implicitly assumed.) Thus we have
-d?(P) = wT
-?φ5
-(P), where w? is a vector of learnable
-model parameters. We learn w? by optimizing the regularized
-least squares objective (ridge regression):
+​         每个函数$d_*(P)$ (\*是$x,y,h,w$ 中的一个)是边框P的pool5层特征(记做$\phi_5(P)$ )的线性函数。因此$d_*(P) = w^T_*\phi_5(P)$, $w_*$ 是模型需要学习的参数向量。我们优化最小二乘目标函数(岭回归)：
+$$
+w_* = arg\min_{\hat w_*} \sum_i^N(t^i_* - \hat w^T_* \phi_5(P^i))^2 + \lambda||\hat w||^2. \tag 5
+$$
+​         对于训练对(P,G)回归的目标$t_*$定义如下：
 
+ $t_x = (G_x - P_x)/P_w$  (6)
 
+ $t_y = (G_y - P_y)/P_h$  (7)
 
-We found two subtle issues while implementing
-bounding-box regression. The first is that regularization
-is important: we set λ = 1000 based on a validation set.
-The second issue is that care must be taken when selecting
-which training pairs (P, G) to use. Intuitively, if P is far
-from all ground-truth boxes, then the task of transforming
-P to a ground-truth box G does not make sense. Using examples
-like P would lead to a hopeless learning problem.
-Therefore, we only learn from a proposal P if it is nearby
-at least one ground-truth box. We implement “nearness” by
-assigning P to the ground-truth box G with which it has
-maximum IoU overlap (in case it overlaps more than one) if
-and only if the overlap is greater than a threshold (which we
-set to 0.6 using a validation set). All unassigned proposals
-are discarded. We do this once for each object class in order
-to learn a set of class-specific bounding-box regressors.
+ $t_w = log(G_w/P_w) $    (8)
+
+$t_h = log(G_h/P_h)$   (9)
+
+​        作为标准的最小二程问题，可以在封闭形式下高效求解。
 
 
 
-At test time, we score each proposal and predict its new
-detection window only once. In principle, we could iterate
-this procedure (i.e., re-score the newly predicted bounding
-box, and then predict a new bounding box from it, and so
-on). However, we found that iterating does not improve
-results.
+We found two subtle issues while implementing bounding-box regression. The first is that regularization
+is important: we set λ = 1000 based on a validation set. The second issue is that care must be taken when selecting which training pairs (P, G) to use. Intuitively, if P is far from all ground-truth boxes, then the task of transforming P to a ground-truth box G does not make sense. Using examples like P would lead to a hopeless learning problem. Therefore, we only learn from a proposal P if it is nearby at least one ground-truth box. We implement “nearness” by assigning P to the ground-truth box G with which it has maximum IoU overlap (in case it overlaps more than one) if and only if the overlap is greater than a threshold (which we set to 0.6 using a validation set). All unassigned proposals are discarded. We do this once for each object class in order to learn a set of class-specific bounding-box regressors.
 
-### D 补充特征可视化
+​        我们在实现边界框回归时发现了两个微妙的问题. 第一个是正则化非常重要：我们在验证集上设置λ = 1000。第二个问题是训练对(P,G)的选择要非常谨慎。直观上来说，如果P和所有的ground-truth边框都非常远，那么将P转换为一个ground-truth边框G没有意义，使用这样的P会导致无法学习的问题。因此我们仅仅学习那些至少在一个ground-truth边框附近的P。我们通过将P赋给与其具有最大IoU重叠（如果它重叠多于一个）的ground-truth边框G来实现“nearness”，当且仅当重叠大于阈值(在验证集上设置为0.6)；其它没有指定的proposals 都丢弃。为了学习一个类别相关的边框回归器，我们对每个目标类别都做一次这种操作。
+
+At test time, we score each proposal and predict its new detection window only once. In principle, we could iterate this procedure (i.e., re-score the newly predicted bounding box, and then predict a new bounding box from it, and so on). However, we found that iterating does not improve results.
+
+​        预测时，我们对每个边框仅仅做一次评分和预测新的检测窗口。原则上，我们可以迭代这个过程(即，重新评分新预测的边界框，然后从新的边框再预测新的边界框，如此反复)。但是，我们发现迭代不会改进结果。
+
+​       
+
+### D 补充的特征可视化
 
 ![R-CNN-fig12](pic/R-CNN-fig12-1.jpg)
 
@@ -722,40 +667,54 @@ In Table 7 we show the per-category segmentation accuracy on VOC 2011 val for ea
 One concern when training on an auxiliary dataset is that there might be redundancy between it and the test set. Even though the tasks of object detection and whole-image classification are substantially different, making such cross-set redundancy much less worrisome, we still conducted a thorough investigation that quantifies the extent to which PASCAL test images are contained within the ILSVRC 2012
 training and validation sets. Our findings may be useful to researchers who are interested in using ILSVRC 2012 as training data for the PASCAL image classification task. 
 
-
+​        有人关注当在辅助数据集上训练时，可能会与测试集数据有冗余。即使目标检测任务和整张图像分析本质不同，基本不用担心数据集之间的冗余问题；我们仍然进行一个彻底的调查来量化PASCAL 测试图像有多少包含在ILSVRC 2012训练和验证集中。我们的调查结果对于想使用ILSVRC 2012作为训练数据来做PASCAL图像分类任务的研究者非常有用。
 
 We performed two checks for duplicate (and nearduplicate) images. The first test is based on exact matches of flickr image IDs, which are included in the VOC 2007 test annotations (these IDs are intentionally kept secret for subsequent PASCAL test sets). All PASCAL images, and about half of ILSVRC, were collected from flickr.com. This check turned up 31 matches out of 4952 (0.63%). 
 
-
+​        我们对重复(或者近似重复)图像执行两种核对。第一种检测基于flickr图像ID匹配，这个ID包含在VOC 2007测试集的标注中(),所有的PASCAL 图像以及约一半的ILSVRC图像来自flickr.com。这个检测最终在4952 中匹配到31(0.63%).
 
 The second check uses GIST [30] descriptor matching, which was shown in [13] to have excellent performance at near-duplicate image detection in large (> 1 million) image collections. Following [13], we computed GIST descriptors on warped 32 × 32 pixel versions of all ILSVRC 2012 trainval and PASCAL 2007 test images. 
 
+​        第二种检测使用GIST [30]descriptor匹配，在[13]展示了在在大体量(超过100w)图像集中高效检测近似重复图像的能力。效仿[13],我们在 ILSVRC 2012 trainval和PASCAL 2007 test上对变形后的32 × 32像素计算GIST descriptors。
 
+​        
 
 Euclidean distance nearest-neighbor matching of GIST descriptors revealed 38 near-duplicate images (including all 31 found by flickr ID matching). The matches tend to vary slightly in JPEG compression level and resolution, and to a lesser extent cropping. These findings show that the overlap is small, less than 1%. For VOC 2012, because flickr IDs are not available, we used the GIST matching method only. Based on GIST matches, 1.5% of VOC 2012 test images are in ILSVRC 2012 trainval. The slightly higher rate for VOC 2012 is likely due to the fact that the two datasets were collected closer together in time than VOC 2007 and ILSVRC 2012 were.
 
+​         欧式距离最邻近匹配GIST descriptors 发现38个接近重复图像(包含了flickr ID匹配的那31个)。这些匹配在JPEG压缩级别和分辨率方面往往略有不同，并且在较小程度上裁剪。这些发现表明重叠非常少，小于1%。对于VOC 2012由于 flickr ID不可得，我们仅仅使用GIST 匹配。基于GIST 匹配，1.5%的VOC 2012 测试集图像包含在ILSVRC 2012 trainval中。VOC 2012稍稍高一点的比例可能是由于两个数据集收集的时间相对于VOC 2007和ILSVRC 2012更接近。
+
 ### G 文档更新日志
 
-This document tracks the progress of R-CNN. To help
-readers understand how it has changed over time, here’s a
-brief changelog describing the revisions.
+This document tracks the progress of R-CNN. To help readers understand how it has changed over time, here’s a brief changelog describing the revisions.
+
 v1 Initial version.
-v2 CVPR 2014 camera-ready revision. Includes substantial
-improvements in detection performance brought about
-by (1) starting fine-tuning from a higher learning rate (0.001
-instead of 0.0001), (2) using context padding when preparing
-CNN inputs, and (3) bounding-box regression to fix localization
-errors.
-v3 Results on the ILSVRC2013 detection dataset and comparison
-with OverFeat were integrated into several sections
+
+v2 CVPR 2014 camera-ready revision. Includes substantial improvements in detection performance brought about by (1) starting fine-tuning from a higher learning rate (0.001 instead of 0.0001), (2) using context padding when preparing CNN inputs, and (3) bounding-box regression to fix localization errors.
+
+v3 Results on the ILSVRC2013 detection dataset and comparison with OverFeat were integrated into several sections
 (primarily Section 2 and Section 4).
 
-v4 The softmax vs. SVM results in Appendix B contained
-an error, which has been fixed. We thank Sergio Guadarrama
-for helping to identify this issue.
-v5 Added results using the new 16-layer network architecture
-from Simonyan and Zisserman [43] to Section 3.3 and
-Table 3.
+v4 The softmax vs. SVM results in Appendix B contained an error, which has been fixed. We thank Sergio Guadarrama for helping to identify this issue. 
+
+v5 Added results using the new 16-layer network architecture from Simonyan and Zisserman [43] to Section 3.3 and Table 3.
+
+​        本文档跟踪R-CNN的进展情况，帮助读者了解它随着时间的推移如何变化，以下是描述修订的简要更新日志。
+
+**v1** 初始版本
+
+**v2** CVPR 2014相机就绪版本,包括检查性能的重大提升，通过
+
+​     (1) 精调的初始学习率更大(0.001而不是0.0001)
+
+​     (2) 对CNN的输入使用背景填充
+
+​     (3) 边框回归解决定位错误
+
+**v3**  ILSVRC2013检测数据集上的结果以及与OverFeat的比较，包含在很多章节中(主要是第2节和第4节)
+
+**v4**  修正附录B中softmax vs. SVM结果包含的错误。感谢Sergio Guadarrama指出这个问题
+
+**v5**  在3.3节和表Table 3中增加了来自Simonyan and Zisserman [43]的16-层网络结构的结果。
 
 ## 参考文献
 
@@ -813,7 +772,7 @@ Table 3.
 
 
 
-总体步骤
+总结
 --------
 
  ![R-CNN流程图](pic/R-CNN流程图.png)
@@ -898,8 +857,6 @@ $t_h = log(G_h/P_h)$   (9)
 
  
 
-
-
 对于训练的样本对(P, G)；优化的目标就是让$w^T_*\phi_5(P)$ 去拟合$t_*$；使用岭回归模型，优化目标如下：
 
 $w_* = \underset{\hat w_*}{argmin} \sum_i^N(t_*^i - \hat w^T_*\phi_5(P^i))^2 + \lambda||\hat w_*||^2 $
@@ -952,22 +909,7 @@ SVM分类：正样本仅仅是Ground Truth代表的Region；负样本为IoU值�
 为什么不直接使用CNN最后的N+1分类做目标检测。作者测试了发现在VOC
 2007数据集上mAP从54.2%下降到50.9%；这是多个因素组合引起的，包括精调阶段没有突出精确定位，以及训练softmax分类器使用的使用随机负样本，而不是像SVM那样使用困难负样本。
 
-     作者猜测，不一定非要在精调
-后使用SVM分类；使用一些其它的tweaks也能有同样的效果
-
-疑问点
-------
-
-1：边框回归中的优化目标定义问题
-
-
-一般回归函数的优化目标(即损失函数)都是预测的Y和实际的Y'的差距最小；这里的优化目标在回归函数的参数项这里。
-
- 
-
- 
-
- 
+     作者猜测，不一定非要在精调后使用SVM分类；使用一些其它的调整也能有同样的效果 
 
 
 
