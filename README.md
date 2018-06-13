@@ -9,6 +9,16 @@
 
 
 
+## 阅读说明
+
+​        由于github对markdown 目录结构以及数据公式支持不好,请git clone 本仓库到本地，然后使用markdown阅读器(如：Typora等)进行阅读及编辑，效果如下：
+
+![](pic/ReadMe-fig1.jpg)
+
+![](pic/ReadMe-fig2.jpg)
+
+
+
 ## 目标检测
 
 ### R-CNN 系列
