@@ -231,17 +231,80 @@ Third, the network is modified to take two data inputs: a list of images and a l
 
 ### 2.3. 检测精调
 
+​       Training all network weights with back-propagation is an important capability of Fast R-CNN. First, let’s elucidate why SPPnet is unable to update weights below the spatial pyramid pooling layer
 
+​      The root cause is that back-propagation through the SPP layer is highly inefficient when each training sample (i.e. RoI) comes from a different image, which is exactly how R-CNN and SPPnet networks are trained. The inefficiency stems from the fact that each RoI may have a very large receptive field, often spanning the entire input image. Since the forward pass must process the entire receptive field, the training inputs are large (often the entire image).
+
+​       We propose a more efficient training method that takes advantage of feature sharing during training. In Fast RCNN training, stochastic gradient descent (SGD) minibatches are sampled hierarchically, first by sampling N images and then by sampling R/N RoIs from each image. Critically, RoIs from the same image share computation and memory in the forward and backward passes. Making N small decreases mini-batch computation. For example, when using N = 2 and R = 128, the proposed training scheme is roughly 64× faster than sampling one RoI from 128 different images (i.e., the R-CNN and SPPnet strategy).
+
+​       One concern over this strategy is it may cause slow training convergence because RoIs from the same image are correlated. This concern does not appear to be a practical issue and we achieve good results with N = 2 and R = 128 using fewer SGD iterations than R-CNN.
+
+​       In addition to hierarchical sampling, Fast R-CNN uses a streamlined training process with one fine-tuning stage that jointly optimizes a softmax classifier and bounding-box regressors, rather than training a softmax classifier, SVMs, and regressors in three separate stages [9, 11]. The components of this procedure (the loss, mini-batch sampling strategy, back-propagation through RoI pooling layers, and SGD hyper-parameters) are described below.
+
+​        用反向传播训练**所有网络权重**是Fast R-CNN的重要能力。首先，让我们阐明为什么SPPnet**无法更新**低于空间金字塔池化层的权重。
+
+​        根本原因是当每个训练样本(即RoI)来**自不同的图像时**，通过SPP层的反向传播是**非常低效**的，这正是训练R-CNN和SPPnet网络的方法。低效源于每个RoI可能具有**非常大的感受野**，通常跨越**整个输入图像**。由于正向传播必须处理整个感受野，训练输入很大(通常是整个图像)。
+
+​        我们提出了一种更有效的训练方法，利用训练期间的**特征共享**。在Fast RCNN网络训练中，随机梯度下降（SGD）的小批量是被**分级采样**的，首先采样**N个图像**，然后从每个图像采样**R/N个 RoI**。关键的是，来自同一图像的RoI在向前和向后传播中**共享计算和内存**。减小N，就减少了mini-batch的计算。例如，当N=2和R=128时，我们提出的训练方式比从**128张不同的图像**采样一个RoI(即R-CNN和SPPnet的策略)**大概快64倍**。
+
+​        这个策略的一个令人担心的问题是它可能**导致训练收敛变慢**，因为**来自相同图像的RoI是相关的**。这个问题似乎在**实际情况下并不存在**，当N=2和R=128时，我们使用**比R-CNN更少的SGD迭代**就获得了很好的效果。
+
+​        除了分级采样，Fast R-CNN使用了一个简化的训练过程，在精调阶段**联合优化** S**oftmax分类器**和**边框回归器**，而不是分别在三个独立的阶段训练softmax分类器，SVM和回归器[9,11]。下面将详细描述该过程(损失，mini-batch采样策略，通过RoI池化层的反向传播和SGD超参数)。
 
 #### 多任务损失
 
+A Fast R-CNN network has two sibling output layers. The first outputs a discrete probability distribution (per RoI), p = (p0, . . . , pK), over K + 1 categories. As usual, p is computed by a softmax over the K+1 outputs of a fully connected layer. The second sibling layer outputs bounding-box regression offsets, t k = t k x , tk y , tk w, tk h  , for each of the K object classes, indexed by k. We use the parameterization for t k given in [9], in which t k specifies a scale-invariant translation and log-space height/width shift relative to an object proposal
 
+​         Fast R-CNN网络具有两个同级输出层。 第一个输出在K+1个类别上的离散概率分布(每个RoI)，p=(p0,…,pK)。 通常，通过在全连接层的K+1个输出上使用Softmax来计算p。第二个输出层输出边框回归偏移，$t^k=(t_x^k,t_y^k,t_w^k,t_h^k)$ ， 对于K个类别中的任一个，由k索引。 我们使用[9]中给出的$t^k$的参数化，其中$t^k$指定相对于候选框的**尺寸不变平移**和**对数空间高度/宽度移位**。
+
+ 
+
+Each training RoI is labeled with a ground-truth class u and a ground-truth bounding-box regression target v. We use a multi-task loss L on each labeled RoI to jointly train for classification and bounding-box regression:
+
+​        每个训练的RoI用**groud-truth类别u**和**groud-truth边框回归目标v**标记。我们对每个标记的RoI使用多任务损失LL以联合训练分类和检测框回归： 
+$$
+L(p,u,t^u,v)=L_{cls}(p,u) + \lambda[u \ge 1]L_{loc}(t^u,v) ,\tag 1
+$$
+
+
+​      $L_{cls}(p,u)=-logp_u$ 是ground-truth类别u的对数损失函数。第二个损失$L_{loc}$是定义在ground-truth类别u上边框回归目标元组$v=(v_x,v_y,v_w,v_y)$和预测元组$t^u=(t_x^u,t_y^u,t_w^u,t_h^u)$上的损失。 艾佛森括号指示函数[u≥1]当u≥1的时候为值1，否则为0。按照惯例，背景类标记为u=0。对于背景RoI，没有ground-truth边框，因此$L_{loc}$被忽略。对于检测框回归，我们使用损失:
+$$
+L_{loc}=\sum_{i \in \{x,y,w,h\}} smooth_{L1}(t_i^u - vi) \tag 2
+$$
+ 其中：
+$$
+smooth_{L1}(x)=\begin{cases}
+0.5x^2 \ \ \ if |x|<1 \\
+|x|-0.5 \ \ \  otherwise  \tag 3
+\end{cases}
+$$
+是鲁棒的L1损失，对于噪声没有R-CNN和SPPnet中使用的L2损失那么敏感。当回归目标无界时，L2损失的训练可能需要仔细调整学习速率，以防止爆炸梯度。公式(3)消除了这种敏感度。
+
+The second task loss, Lloc, is defined over a tuple of true bounding-box regression targets for class u, v = (vx, vy, vw, vh), and a predicted tuple t u = (t u x , tu y , tu w, tu h ), again for class u. The Iverson bracket indicator function [u ≥ 1] evaluates to 1 when u ≥ 1 and 0 otherwise. By convention the catch-all background class is labeled u = 0. For background RoIs there is no notion of a ground-trut
+
+bounding box and hence Lloc is ignored. For bounding-box regression, we use the loss Lloc(t u , v) = X i∈{x,y,w,h} smoothL1 (t u i − vi), (2) in which smoothL1 (x) = ( 0.5x 2 if |x| < 1 |x| − 0.5 otherwise, (3		is a robust L1 loss that is less sensitive to outliers than the L2 loss used in R-CNN and SPPnet. When the regression targets are unbounded, training with L2 loss can require careful tuning of learning rates in order to prevent exploding gradients. Eq. 3 eliminates this sensitivity
+
+The hyper-parameter λ in Eq. 1 controls the balance between the two task losses. We normalize the ground-truth regression targets vi to have zero mean and unit variance. All experiments use λ = 1
+
+We note that [6] uses a related loss to train a classagnostic object proposal network. Different from our approach, [6] advocates for a two-network system that separates localization and classification. OverFeat [19], R-CNN [9], and SPPnet [11] also train classifiers and bounding-box localizers, however these methods use stage-wise training, which we show is suboptimal for Fast R-CNN (Section 5.1
+
+​        公式(1)中的超参数λ控制两个任务损失之间的平衡。我们将ground-truch回归目标$v_i$归一化为具有零均值和单位方差。所有实验都使用λ=1。
+
+​        我们注意到[6]使用相关损失来训练一个类别无关的目标proposal网络。 与我们的方法不同的是[6]倡导一个分离定位和分类的双网络系统。OverFeat[19]，R-CNN[9]和SPPnet[11]也训练分类器和边框定位器，但是这些方法使用分阶段训练，这对于Fast RCNN来说不是最好的选择(见5.1节)。
 
 #### Mini-batch采样
 
+During fine-tuning, each SGD mini-batch is constructed from N = 2 images, chosen uniformly at random (as is common practice, we actually iterate over permutations of the dataset). We use mini-batches of size R = 128, sampling 64 RoIs from each image. As in [9], we take 25% of the RoIs from object proposals that have intersection over union (IoU) overlap with a groundtruth bounding box of at least 0.5. These RoIs comprise the examples labeled with a foreground object class, i.e. u ≥ 1. The remaining RoIs are sampled from object proposals that have a maximum IoU with ground truth in the interval [0.1, 0.5), following [11]. These are the background examples and are labeled with u = 0. The lower threshold of 0.1 appears to act as a heuristic for hard example mining [8]. During training, images are horizontally flipped with probability 0.5. No other data augmentation is used.
 
+​        在精调期间，每个SGD mini-batch由N=2个图像构成，均匀地随机选择(如通常的做法，我们实际上迭代数据集的排列)。 我们使用大小为R=128的mini-batch，从每个图像采样64个RoI。 如在[9]中，我们从目标proposals中获取25％的RoI，这些proposals与ground-truth的IoU至少为0.5。 这些RoI只包括用前景对象类标记的样本，即u≥1。 剩余的RoI从与ground-truth的最大IoU在区间[0.1,0.5)上的proposal 中采样; 这些是背景样本，并用u=0标记。0.1的阈值下限作为困难负样本挖掘的启发式采样[8]。 在训练期间，图像以概率0.5水平翻转。没有使用其他数据增强。
 
 #### 通过RoI池化层的反向传播
+
+Backpropagation routes derivatives through the RoI pooling layer. For clarity, we assume only one image per mini-batch (N = 1), though the extension to N > 1 is straightforward because the forward pass treats all images independently.
+
+Let xi ∈ R be the i-th activation input into the RoI pooling layer and let yrj be the layer’s j-th output from the rth RoI. The RoI pooling layer computes yrj = xi ∗(r,j) , in which i ∗ (r, j) = argmaxi 0∈R(r,j) xi 0 . R(r, j) is the indeset of inputs in the sub-window over which the output unit yrj max pools. A single xi may be assigned to several different outputs yrj .
+
+The RoI pooling layer’s backwards function computes partial derivative of the loss function with respect to each input variable xi by following the argmax switches: ∂L ∂xi = X r X j [i = i ∗ (r, j)] ∂L ∂yrj . (4) In words, for each mini-batch RoI r and for each pooling output unit yrj , the partial derivative ∂L/∂yrj is accumulated if i is the argmax selected for yrj by max pooling. In back-propagation, the partial derivatives ∂L/∂yrj are already computed by the backwards function of the layer on top of the RoI pooling layer.
 
 
 
