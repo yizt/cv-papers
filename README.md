@@ -19,6 +19,8 @@
 
 <a href='Faster R-CNN.md'>Faster R-CNN</a>
 
+<a href='FPN.md'>FPN</a>
+
 <a href='Mask R-CNN.md'>Mask R-CNN</a>
 
 <a href='R-FCN.md'>R-FCN</a>
