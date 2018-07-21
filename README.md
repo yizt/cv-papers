@@ -73,6 +73,12 @@ SiameseFC
 
 
 
+## ocr/场景文本检测
+
+<a href='CRNN.md'>CRNN</a>
+
+
+
 附：<a href='计算机视觉经典论文地址汇总.md'>计算机视觉经典论文地址汇总</a>
 
 
