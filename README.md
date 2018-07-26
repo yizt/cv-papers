@@ -1,7 +1,7 @@
 # cv-papers
 计算机视觉相关论文整理、翻译、记录、分享;
 
-包括图像分类、目标检测、视觉跟踪/目标跟踪、人脸识别/人脸验证等领域。
+包括图像分类、目标检测、视觉跟踪/目标跟踪、人脸识别/人脸验证、OCR/场景文本检测、识别等领域。
 
 欢迎加星, 欢迎提问，欢迎指正错误, 同时也期待能够共同参与;长沙的朋友欢迎线下交流
 
@@ -63,7 +63,7 @@ G-CNN
 
 Online Object Tracking: A Benchmark
 
-<a href='Cascade R-CNN.md'>FCNT</a>
+<a href='FCNT.md'>FCNT</a>
 
 <a href='GOTURN.md'>GOTURN</a>
 
@@ -77,7 +77,7 @@ SiameseFC
 
 <a href='CRNN.md'>CRNN</a>
 
-
+<a href='CTPN.md'>CTPN</a>
 
 附：<a href='计算机视觉经典论文地址汇总.md'>计算机视觉经典论文地址汇总</a>
 
