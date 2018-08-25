@@ -4,11 +4,9 @@
 
 
 
-​        最近看语义分割论文DeepLab，有使用全连接CRF恢复局部的细节信息，提升分割精度。又回去复习了下CRF，仍然有一个问题很困扰: "根据Hammersley Clifford定理，一个无向图模型的概率可以表示为定义在图上所有最大团上的势函数的乘积"；为什么可以这么定义，也就是Hammersley Clifford定理证明过程，书中并没有没有给出；网上看到也有一些童鞋有同样的困惑，本文翻译并备注了证明过程，希望对大家有所帮助。
+​        最近看语义分割论文DeepLab，有使用全连接CRF恢复局部的细节信息，提升分割精度。又回去复习了下CRF，仍然有一个问题很困扰: "根据Hammersley Clifford定理，一个无向图模型的概率可以表示为定义在图上所有最大团上的势函数的乘积"；为什么可以这么定义，也就是Hammersley Clifford定理证明过程，书中并没有给出；网上看到也有一些童鞋有同样的困惑，本文翻译并备注了证明过程，希望对大家有所帮助。
 
-原文地址: <a href=http://www.vis.uky.edu/~cheung/courses/ee639/Hammersley-Clifford_Theorem.pdf>Proof of Hammersley-Clifford Theorem</a>
-
-
+原文地址: [Proof of Hammersley-Clifford Theorem](http://www.vis.uky.edu/~cheung/courses/ee639/Hammersley-Clifford_Theorem.pdf)
 
 ### 依赖知识
 
@@ -169,7 +167,7 @@ $$
 
 根据贝叶斯规则有：
 
- 
+
 $$
 \frac {P(X_w,X_{G \backslash w}=0)} {P(X_{w \bigcup \{a\}},X_{G \backslash w \bigcup \{a\}}=0)}
 $$

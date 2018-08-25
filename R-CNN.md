@@ -62,7 +62,7 @@ b) 根据各分割区域的颜色、小大、纹理、吻合等方面相似度�
 
 
 
-​        SIFT和HOG是块方向直方统计，在V1中可以粗略的与复杂单元关联的代表; 是首要视觉路径的第一个表面区域。但同时我们也知道**识别**发生在**一系列下游阶段**，这暗示对于**视觉识别**肯能**层次的**、**多阶段****的**计算特征会更加有益。
+​        SIFT和HOG是块方向直方统计，在V1中可以粗略的与复杂单元关联的代表; 是首要视觉路径的第一个表面区域。但同时我们也知道**识别**发生在**一系列下游阶段**，这暗示对于**视觉识别** 可能**层次的**、**多阶段的**计算特征会更加有益。
 
 ​        Fukushima’s的“新认知机”[19],一个受生物学启发的、层次的和平移不变的模式识别模型，是这样一个过程的早期尝试。但是新认知机缺乏监督预训练算法。构建在Rumelhart et al. [33]和LeCun et al. [26] 上，表明**反向传播**的**随机梯度下降**法对于训练卷积神经网络(CNNs)有效，CNNs是**新认知机**上**扩展的一类模型**。
 
@@ -82,7 +82,7 @@ b) 根据各分割区域的颜色、小大、纹理、吻合等方面相似度�
 
 ​        我们的系统也非常高效，仅有一个合理**小型矩阵向量乘积运算**和**贪婪非极大抑制**的计算是**类别相关**的。这个计算特性源自于**跨类别共享**的特征，维度比之前使用的区域特征(cf. [39])低了两个数量级。
 
-​        理解我们方法的失败案例，对于进一步提高它很有帮助，所以我们借助Hoiem et al. [23]检测分析工具做实验结果的报告。作为本次分析的直接结果，我们发现一个简单的**边框回归**的方法会**明显地减少定位错误****，而**定位错误**也是**最主要**的**错误**情况。
+​        理解我们方法的失败案例，对于进一步提高它很有帮助，所以我们借助Hoiem et al. [23]检测分析工具做实验结果的报告。作为本次分析的直接结果，我们发现一个简单的**边框回归**的方法会**明显地减少定位错误**，而**定位错误**也是**最主要**的**错误**情况。
 
 ​      介绍技术细节之前，我们注意，由于R-CNN是在**区域**上进行操作，因而可以很自然地扩展到**语义分割**任务上。经过很小的改动，我们就在PASCAL VOC语义分割任务上达到了很有竞争力的结果，在VOC2011测试集上平均语义分割精度达到了47.9%。
 
@@ -233,11 +233,7 @@ only twice, once with and once without bounding-box regression.
 
 ### 3.4 检测错误情况分析
 
-We applied the excellent detection analysis tool from Hoiem et al. [23] in order to reveal our method’s error modes, understand how fine-tuning changes them, and to see how our error types compare with DPM. A full summary of the analysis tool is beyond the scope of this paper and we encourage readers to consult [23] to understand some finer details (such as “normalized AP”). Since the analysis is best absorbed in the context of the associated plots, we present the discussion within the captions of Figure 5 and Figure 6.
-
-​        我们使用来自Hoiem et al. [23]的检测分析工具，为的是揭示我们方法的**错误模式**，明白精调怎么改变错误模式，并与DPM的错误类型比较。分析工具的完整概述超出本文的范畴，建议读者咨询[23]一些更详细的细节(如“normalized AP”)。因为最好的分析已经在吸收到相关的图中了，我
-
-们将在图Figure 5和Figure 6中加上讨论说明。
+​        我们使用来自Hoiem et al. [23]的检测分析工具，为的是揭示我们方法的**错误模式**，明白精调怎么改变错误模式，并与DPM的错误类型比较。分析工具的完整概述超出本文的范畴，建议读者咨询[23]一些更详细的细节(如“normalized AP”)。因为最好的分析已经在吸收到相关的图中了，我们将在图Figure 5和Figure 6中加上讨论说明。
 
 ![R-CNN-fig5-1](pic/R-CNN-fig5-1.jpg)
 
