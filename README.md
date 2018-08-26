@@ -9,6 +9,12 @@
 
 
 
+## 基础网络
+
+[ResNeXt](ResNext.md)
+
+
+
 ## 目标检测
 
 ### R-CNN 系列
