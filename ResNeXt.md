@@ -80,3 +80,118 @@ Decomposition (at spatial [6, 18] and/or channel [6, 21, 16] level) is a widely 
  Averaging a set of independently trained networks is an effective solution to improving accuracy [24], widely adopted in recognition competitions [33]. Veit et al. [40] interpret a single ResNet as an ensemble of shallower networks, which results from ResNet’s additive behaviors [15]. Our method harnesses additions to aggregate a set of transformations. But we argue that it is imprecise to view our method as ensembling, because the members to be aggregated are trained jointly, not independently。
 
 ​        取一组独立训练网络的均值是一种提升精度[24]的有效解决方案, 在识别竞赛中被广泛采用。Veit et al. [40]将单个ResNets解释为浅层网络的一个集成，ResNet的结果来自与加法行为[15]。我们的方法使用附加的聚合一组转换。但是我们认为将我们的当做集成是不确切的，因为聚合在一起的成员是联合训练的，不是独立训练的。
+
+
+
+## 3. 方法
+
+### 3.1 模板
+
+We adopt a highly modularized design following VGG/ResNets. Our network consists of a stack of resid-ual blocks. These blocks have the same topology, and are subject to two simple rules inspired by VGG/ResNets: (i) if producing spatial maps of the same size, the blocks share the same hyper-parameters (width and filter sizes), and (ii) each time when the spatial map is downsampled by a factor of 2, the width of the blocks is multiplied by a factor of 2. The second rule ensures that the computational complexity, in terms of FLOPs (floating-point operations, in #of multiply-adds), is roughly the same for all blocks.
+
+​         我们遵循VGG/ResNets，采用高度模块化设计。我们的网络包含一堆残差block，这些block有相同的拓扑，受VGG/ResNets启发，这些block满足两个简单规则：(i) 如果产生空间大小相同的特征图，这些block共享相同的超参(宽度和滤波器尺寸)，(ii) 当空间特征图以因子2下采样时，block的宽度乘上因子2。第二条规则确保了计算复杂度，对于所有block而言FLOPs(在multiply-add中是浮点运算)大致相同。
+
+With these two rules, we only need to design a template module, and all modules in a network can be determined accordingly. So these two rules greatly narrow down the design space and allow us to focus on a few key factors. The networks constructed by these rules are in Table 1.
+
+​        有了这两个规则，我们只需要设计一个模板模块，网络中的所有模块都可以被相应地确定。因此，这两条规则大大缩小了设计空间，使得我们关注几个关键因素。根据这两条规则构建的网络见表Table(1)
+
+### 3.2. Revisiting Simple Neurons
+
+The simplest neurons in artificial neural networks perform inner product (weighted sum), which is the elementary transformation done by fully-connected and convolutional layers. Inner product can be thought of as a form of aggregating transformation:
+
+​          人工神经网络最简单的神经元执行內积(加权求和),  是全连接层和卷积层执行基本转换。內积可以看做聚合转换的一种形式：
+$$
+\sum_{i=1}^D w_ix_i \tag 1
+$$
+
+
+​       其中 $x = [x_1, x_2, ..., x_D]$ is a D-channel input vector to the neuron and wi is a filter’s weight for the i-th chan-nel. This operation (usually including some output nonlinearity) is referred to as a “neuron”. See Fig. 2.
+
+​       其中 $x = [x_1, x_2, ..., x_D]$ 是神经元的D通道输入向量，$w_i$ 是滤波器第i个通道的权重。这个操作(通常包括一些非线性输出)被称为“神经元”。
+
+The above operation can be recast as a combination of splitting, transforming, and aggregating. (i) Splitting: the vector x is sliced as a low-dimensional embedding, and in the above, it is a single-dimension subspace xi. (ii)Transforming: the low-dimensional representation is transformed,and in the above, it is simply scaled: wixi. (iii)Aggregating: the transformations in all embeddings are aggregated by PD 	i=1.
+
+​      上面的操作可以作为分割、转换和聚合的组合重新构建。(1)分割：向量$x$ 切片为一个低维嵌入，上面这个就是一个单维子空间$x_i$ ; (ii)转换：低维表示被转换，上面这个，它被简单缩放:$w_ix_i$ ; (iii)聚合：所有嵌入的转换通过$\sum_{i=1}^D$ 聚合。
+
+
+
+### 3.3. Aggregated Transformations
+
+Given the above analysis of a simple neuron, we consider replacing the elementary transformation (wixi) with a more generic function, which in itself can also be a network. In contrast to “Network-in-Network” [26] that turns out to increase the dimension of depth, we show that our “Network-in-Neuron” expands along a new dimension
+
+​         分析了简单的神经元，我们考虑将基础的转换($w_ix_i$)替换为更通用的函数,函数本身可以是一个网络。与“Network-in-Network” [26] 相比，它增加深度，我们展示了我们的“Network-in-Neuron”沿着一个新的维度扩展。
+
+Formally, we present aggregated transformations as:
+
+形式上，我们提出的聚合转换为：
+
+$\cal F(x)= \sum_{i=0}^C T_i(x), \tag 2$
+where Ti(x) can be an arbitrary function. Analogous to a simple neuron, Ti should project x into an (optionally lowdimensional) embedding and then transform it
+
+​        $\cal T_i(x)$ 可以是任意函数，类似一个简单神经元，$\cal T_i$ 投影x到一个嵌套(通常是低维的)，然后转换它。
+
+In Eqn.(2), C is the size of the set of transformations to be aggregated. We refer to C as cardinality [2]. In
+Eqn.(2) C is in a position similar to D in Eqn.(1), but C need not equal D and can be an arbitrary number. While the dimension of width is related to the number of simple transformations (inner product), we argue that the dimension of cardinality controls the number of more complex transformations. We show by experiments that cardinality is an essential dimension and can be more effective than the dimensions of width and depth.
+
+​         在等式(2)中C是需要聚合的一组转换大小，我们称C为基数[2]。C在等式(2)中的位置与D在等式(1)中类似，但是C需要等于D，可以是任意数值。维度宽度与简单转换(内积)的数量有关，我们认为维度基数控制更复杂转换的数量。我们通过实验证明，基数是一个基本的维度，比宽度和深度(这两个维度)更有效。
+
+In this paper, we consider a simple way of designing the transformation functions: all Ti’s have the same topology. This extends the VGG-style strategy of repeating layers of the same shape, which is helpful for isolating a few factors and extending to any large number of transformations. We set the individual transformation Ti to be the bottleneck shaped architecture [14], as illustrated in Fig. 1 (right). In this case, the first 1×1 layer in each Ti produces the lowdimensional embedding
+
+​          本文中，我们考虑一个简单的方式设计转换函数：所有的$\cal T_i$ 有相同的拓扑，这扩展了重复相同形状的层的VGG-style策略, 这有助于隔离一些因素并扩展转换数量到任意大。如图Figure 1(右)描绘的，我们将单个转换$\cal T_i$设置为bottleneck形状的架构[14]。这种情况下，$\cal T_i$ 中第一个$1 \times 1$ 的层产生低维嵌入。
+
+The aggregated transformation in Eqn.(2) serves as the residual function [14] (Fig. 1 right):
+
+​        等式(2)中的聚合转换充当残差函数[14] (图Figure 1右)：
+$$
+\cal y=x+\sum_{i=1}^C T(x_i) \tag3
+$$
+where y is the output.
+
+
+
+**Relation to Inception-ResNet.** 
+
+Some tensor manipulations show that the module in Fig. 1(right) (also shown in Fig. 3(a)) is equivalent to Fig. 3(b).3 Fig. 3(b) appears similar to the Inception-ResNet [37] block in that it involves branching and concatenating in the residual function. But unlike all Inception or Inception-ResNet modules, we share the same topology among the multiple paths. Our module requires minimal extra effort designing each path.
+
+​        一些张量操作表明，图Figure 1(右)中的模块(如图Figure 3(a)所示)与图Figure 3(b)等价。图Figure 3(b)与incep - resnet[37] block类似，因为它涉及到残差函数的分支和连接。但是不同于所有Inception或Inception-ResNet模块，我们在多个路径之间共享相同的拓扑。我们的模块需要最少的额外工作来设计每个路径。
+
+**Relation to Grouped Convolutions.** 
+
+The above module becomes more succinct using the notation of grouped convolutions [24]. This reformulation is illustrated in Fig. 3(c). All the low-dimensional embeddings (the first 1×1 layers) can be replaced by a single, wider layer (e.g., 1×1, 128-d in Fig 3(c)). Splitting is essentially done by the grouped convolutional layer when it divides its input channels into groups. The grouped convolutional layer in Fig. 3(c) performs 32 groups of convolutions whose input and output channels are 4-dimensional. The grouped convolutional layer concatenates them as the outputs of the layer. The block in Fig. 3(c) looks like the original bottleneck residual block in Fig. 1(left), except that Fig. 3(c) is a wider but sparsely connected module.
+
+​          使用分组卷积[24]的符号，上面的模块变得更加简洁；图Figure 3(c)显示了这种重构。所有的低维嵌入(第一个1×1层)可以用一个更宽的层(例如,在图Figure 3 (c)中1×1,128维)替换。分割基本上是由分组卷积层在将输入通道划分为组时完成的。图Figure 3(c)中分组的卷积层执行32组输入和输出通道为4维的卷积。分组的卷积层将它们连接到一起作为层的输出。图Figure 3(c)中的block与图Figure 1(左)中的bottlenetck块相似，除了图3(c)是一个更宽的、稀疏的连接模块。
+
+We note that the reformulations produce nontrivial topologies only when the block has depth ≥3. If the block has depth = 2 (e.g., the basic block in [14]), the reformulations lead to trivially a wide, dense module. See the illustration in Fig. 4.
+
+​         我们注意到重构产生非凡的拓扑只有block的深度≥3；如果块的深度为2(如[14]中基本block), 重构就变成一个普通的宽的、密集模块了；见图Figure 4中的描绘。
+
+**Discussion.** 
+
+We note that although we present reformulations that exhibit concatenation (Fig. 3(b)) or grouped convolutions (Fig. 3(c)), such reformulations are not always applicable for the general form of Eqn.(3), e.g., if the transformation Ti takes arbitrary forms and are heterogenous. We choose to use homogenous forms in this paper because they are simpler and extensible. Under this simplified case, grouped convolutions in the form of Fig. 3(c) are helpful for easing implementation.
+
+​       我们注意到，尽管我们提出了显示连接(图Figure 3(b))或分组卷积(图Figrue 3(c))的重构方式，但这种重构对公式(3)一般形式不总是合适的，如果变换$\cal T_i$是任意形式的并且是异构的。在本文中，我们选择使用同构形式，因为它们更简单，并且可扩展。在这种简化的情况下，以图Figure 3(c)中分组卷积的形式有助于简化实现。
+
+
+
+### 3.4. Model Capacity
+
+Our experiments in the next section will show that our models improve accuracy when maintaining the model complexity and number of parameters. This is not only interesting in practice, but more importantly, the complexity and number of parameters represent inherent capacity of models and thus are often investigated as fundamental properties of deep networks [8].
+
+​        下一节的实验会展示，我们的模型在保持模型复杂度和参数量时提升了精度。这不仅在实践中很有趣，而且更重要的是，复杂度和参数量代表了模型的固有容量，因此常常被作为深网络的基本特性来研究[8].
+
+When we evaluate different cardinalities C while preserving complexity, we want to minimize the modification of other hyper-parameters. We choose to adjust the width of the bottleneck (e.g., 4-d in Fig 1(right)), because it can be isolated from the input and output of the block. This strategy introduces no change to other hyper-parameters (depth or input/output width of blocks), so is helpful for us to focus
+on the impact of cardinality
+
+​         当我们在保持复杂度的同时评估不同的基数C时，我们希望最小化对其它超参数的修改。我们选择调整bottleneck的宽度(例如图Figure 1(右)中的4维)，因为它可以从块的输入和输出隔离出来。这种策略不会改变其他超参数(block的深度或输入/输出宽度)，因此有助于我们聚焦基数的影响。
+
+In Fig. 1(left), the original ResNet bottleneck block [14] has 256 · 64 + 3 · 3 · 64 · 64 + 64 · 256 ≈ 70k parameters and proportional FLOPs (on the same feature map size). With bottleneck width d, our template in Fig. 1(right) has: C · (256 · d + 3 · 3 · d · d + d · 256) (4) parameters and proportional FLOPs. When C = 32 and d = 4, Eqn.(4) ≈ 70k. Table 2 shows the relationship between cardinality C and bottleneck width d.
+
+​        在图1(左),原ResNet bottleneck block[14] 有256*64 + 3 * 3 * 64  + 64 * 256≈70 k参数和成比例FLOPs(在同一特征图大小)。在bottleneck宽度为d的情况下，我们图Figure 1(右)的模板有:
+$$
+C*(256*d + 3*3*d*d + d*256) \tag 4
+$$
+参数和成比例FLOPs。当C = 32和d = 4 ,等式(4)约有70 k。表Table 2显示了基数C和bottleneck宽度d之间的关系。
+
+Because we adopt the two rules in Sec. 3.1, the above approximate equality is valid between a ResNet bottleneck block and our ResNeXt on all stages (except for the subsampling layers where the feature maps size changes). Table 1 compares the original ResNet-50 and our ResNeXt-50 that is of similar capacity.5 We note that the complexity can only be preserved approximately, but the difference of the complexity is minor and does not bias our results.
+
+​        因为我们采用了3.1小节中的两条规则，所以上面的近似等式在ResNet bottle block和我们的ResNeXt的所有阶段(除了下采样层,特征图的尺寸有变化)是有效的。
