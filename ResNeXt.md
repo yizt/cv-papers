@@ -56,41 +56,27 @@ Our neural networks, named ResNeXt (suggesting the next dimension), outperform R
 
 ## 2. 相关工作
 
-Multi-branch convolutional networks. The Inception
-models [38, 17, 39, 37] are successful multi-branch architectures
-where each branch is carefully customized.
-ResNets [14] can be thought of as two-branch networks
-where one branch is the identity mapping. Deep neural decision
-forests [22] are tree-patterned multi-branch networks
-with learned splitting functions.
-Grouped convolutions. The use of grouped convolutions
-dates back to the AlexNet paper [24], if not earlier. The
-motivation given by Krizhevsky et al. [24] is for distributing
-the model over two GPUs. Grouped convolutions are supported
-by Caffe [19], Torch [3], and other libraries, mainly
-for compatibility of AlexNet. To the best of our knowledge,
-there has been little evidence on exploiting grouped convolutions
-to improve accuracy. A special case of grouped convolutions
-is channel-wise convolutions in which the number
-of groups is equal to the number of channels. Channel-wise
-convolutions are part of the separable convolutions in [35].
-Compressing convolutional networks. Decomposition (at
-spatial [6, 18] and/or channel [6, 21, 16] level) is a widely
-adopted technique to reduce redundancy of deep convolutional
-networks and accelerate/compress them. Ioannou
-et al. [16] present a “root”-patterned network for reducing
-computation, and branches in the root are realized
-by grouped convolutions. These methods [6, 18, 21, 16]
-have shown elegant compromise of accuracy with lower
-complexity and smaller model sizes. Instead of compression,
-our method is an architecture that empirically shows
-stronger representational power.
-Ensembling. Averaging a set of independently trained networks
-is an effective solution to improving accuracy [24],
-widely adopted in recognition competitions [33]. Veit et al.
-[40] interpret a single ResNet as an ensemble of shallower
-networks, which results from ResNet’s additive behaviors
-[15]. Our method harnesses additions to aggregate a set of
-transformations. But we argue that it is imprecise to view
-our method as ensembling, because the members to be aggregated
-are trained jointly, not independently
+### Multi-branch convolutional networks
+
+The Inception models [38, 17, 39, 37] are successful multi-branch architectures where each branch is carefully customized. ResNets [14] can be thought of as two-branch networks where one branch is the identity mapping. Deep neural decision forests [22] are tree-patterned multi-branch networks with learned splitting functions.。
+
+​         Inception模块[38,17,39,37]是成功的多分支架构，它的每个分支是精心定制的。ResNets[14]可以看做是一个二分支网络，其中一个分支是恒等映射。深度神经决策森林[22]是具有学习分裂功能的树状多分支网络。
+
+### Grouped convolutions
+
+The use of grouped convolutions dates back to the AlexNet paper [24], if not earlier. The motivation given by Krizhevsky et al. [24] is for distributing the model over two GPUs. Grouped convolutions are supported
+by Caffe [19], Torch [3], and other libraries, mainly for compatibility of AlexNet. To the best of our knowledge, there has been little evidence on exploiting grouped convolutions to improve accuracy. A special case of grouped convolutions is channel-wise convolutions in which the number of groups is equal to the number of channels. Channel-wise convolutions are part of the separable convolutions in [35].
+
+​        分组卷积的使用可以追溯到AlexNet论文[24], 如果没有更早。Krizhevsky et al. [24]给出的动机是将模型分布到两个GPU上。Caffe [19], Torch [3], 和其它库都支持分组卷积，主要为了兼容AlexNet。据我们所知，很少有证件表明利用分组卷积来提高精度。分组卷积的一个特例是分通道卷积，这种情况下分组数就是通道数。分通道卷积是可分卷积[35]的一部分。
+
+### Compressing convolutional networks
+
+Decomposition (at spatial [6, 18] and/or channel [6, 21, 16] level) is a widely adopted technique to reduce redundancy of deep convolutional networks and accelerate/compress them. Ioannou et al. [16] present a “root”-patterned network for reducing computation, and branches in the root are realized by grouped convolutions. These methods [6, 18, 21, 16] have shown elegant compromise of accuracy with lower complexity and smaller model sizes. Instead of compression, our method is an architecture that empirically shows stronger representational power.
+
+​        分解(在空间[6,18]或通道[6,21,16]级别)是广泛采用的用于检测深度卷积网络冗余和加速/压缩它的技术。 Ioannou et al. [16] 提出"根"-模式网络来减少计算，根中的分支通过分组卷积实现。[6, 18, 21, 16]中的方法展示了精度和较低复杂度和较小模型大小的优雅折中。不同于压缩，我们的方法是在实验中显示更强的表达能力的一种架构。
+
+### Ensembling
+
+ Averaging a set of independently trained networks is an effective solution to improving accuracy [24], widely adopted in recognition competitions [33]. Veit et al. [40] interpret a single ResNet as an ensemble of shallower networks, which results from ResNet’s additive behaviors [15]. Our method harnesses additions to aggregate a set of transformations. But we argue that it is imprecise to view our method as ensembling, because the members to be aggregated are trained jointly, not independently。
+
+​        取一组独立训练网络的均值是一种提升精度[24]的有效解决方案, 在识别竞赛中被广泛采用。Veit et al. [40]将单个ResNets解释为浅层网络的一个集成，ResNet的结果来自与加法行为[15]。我们的方法使用附加的聚合一组转换。但是我们认为将我们的当做集成是不确切的，因为聚合在一起的成员是联合训练的，不是独立训练的。
