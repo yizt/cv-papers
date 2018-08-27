@@ -195,3 +195,65 @@ $$
 Because we adopt the two rules in Sec. 3.1, the above approximate equality is valid between a ResNet bottleneck block and our ResNeXt on all stages (except for the subsampling layers where the feature maps size changes). Table 1 compares the original ResNet-50 and our ResNeXt-50 that is of similar capacity.5 We note that the complexity can only be preserved approximately, but the difference of the complexity is minor and does not bias our results.
 
 ​        因为我们采用了3.1小节中的两条规则，所以上面的近似等式在ResNet bottle block和我们的ResNeXt的所有阶段(除了下采样层,特征图的尺寸有变化)是有效的。
+
+
+
+## 4. 实现细节
+
+Our implementation follows [14] and the publicly available code of fb.resnet.torch [11]. On the ImageNet
+dataset, the input image is 224×224 randomly cropped from a resized image using the scale and aspect ratio augmentation of [38] implemented by [11]. The shortcuts are identity connections except for those increasing dimensions which are projections (type B in [14]). Downsampling of conv3, 4, and 5 is done by stride-2 convolutions in the 3×3 layer of the first block in each stage, as suggested in [11]. We use SGD with a mini-batch size of 256 on 8 GPUs (32 per GPU). The weight decay is 0.0001 and the momentum is 0.9. We start from a learning rate of 0.1, and divide it by 10 for three times using the schedule in [11]. We adopt the
+weight initialization of [13]. In all ablation comparisons, we evaluate the error on the single 224×224 center crop from an image whose shorter side is 256.
+
+​        我们的实现遵循[14]和开源的fb.resnet.torch [11]代码。在ImageNet数据集上，输入图像是224×224，随机从调整尺寸后的图像裁剪得到，这些调整大小的图片来自使用由[11]实现的[38]中的用缩放和长宽比做数据增广。shotcuts是恒等连接，除了那些增加的维度是投影([14]中的类型B)。如[11]中建议，conv3 4和5的下采样是通过每个stage中第一block的步长为2的$3 \times 3$ 卷积层完成的；使用SGD, 256的mini-batch在8个GPUs上(每个GPU32个样本)；权重衰减为0.0001，动量大小为0.9。初始学习率为0.1，按照[11]中的计划做3次除以10;采用[13]中的权重初始化策略。在所有的消融比较中，我们在单个$224 \times 224 $ 的裁剪图像上进行错误评估，这个图像从短边为256的图像中心裁剪而来。
+
+Our models are realized by the form of Fig. 3(c). We perform batch normalization (BN) [17] right after the convolutions in Fig. 3(c).6 ReLU is performed right after each BN, expect for the output of the block where ReLU is performed after the adding to the shortcut, following [14].
+
+​         我们的模型以图Figure 3(c)的形式实现, 在图Figure 3(c)中卷积之后，我们执行批标准化(BN)[17]，在每个BN后执行ReLU，除了block的输出部分，遵循[14]:ReLU在添加到shortcut之后才执行。
+
+We note that the three forms in Fig. 3 are strictly equivalent, when BN and ReLU are appropriately addressed as mentioned above. We have trained all three forms and obtained the same results. We choose to implement by Fig. 3(c) because it is more succinct and faster than the other two forms.
+
+​          我们注意到，当BN和ReLU合适的放置，图Figure 3中的三种形式是严格等价的。我们训练了所有的三种形式，获得了相同的结果。我们选择图Figure . 3(c)实现,因为它更加简洁，并且比其它两种形式更快。
+
+
+
+## 5. 实验
+
+### 5.1. Experiments on ImageNet-1K
+
+
+
+We conduct ablation experiments on the 1000-class ImageNet classification task [33]. We follow [14] to construct 50-layer and 101-layer residual networks. We simply replace all blocks in ResNet-50/101 with our blocks.
+
+​          我们在1000类ImageNet分类任务[33]上进行消融实验，遵循[14],构建了50层和101层的残差网络，简单的将ResNet-50/101中所有的block替换为我们的block。
+
+**Notations.** 
+
+Because we adopt the two rules in Sec. 3.1, it is sufficient for us to refer to an architecture by the template.
+For example, Table 1 shows a ResNeXt-50 constructed by a template with cardinality = 32 and bottleneck width = 4d (Fig. 3). This network is denoted as ResNeXt-50 (32×4d) for simplicity. We note that the input/output width of the template is fixed as 256-d (Fig. 3), and all widths are doubled each time when the feature map is subsampled (see Table 1).
+
+
+
+**Cardinality vs. Width.** 
+
+We first evaluate the trade-off between cardinality C and bottleneck width, under preserved complexity as listed in Table 2. Table 3 shows the results and Fig. 5 shows the curves of error vs. epochs. Comparing with ResNet-50 (Table 3 top and Fig. 5 left), the 32×4d ResNeXt-50 has a validation error of 22.2%, which is 1.7%
+lower than the ResNet baseline’s 23.9%. With cardinality C increasing from 1 to 32 while keeping complexity, the error rate keeps reducing. Furthermore, the 32×4d ResNeXt also has a much lower training error than the ResNet counterpart, suggesting that the gains are not from regularization but from stronger representations.
+
+
+
+Similar trends are observed in the case of ResNet-101
+(Fig. 5 right, Table 3 bottom), where the 32×4d ResNeXt101
+outperforms the ResNet-101 counterpart by 0.8%. Although
+this improvement of validation error is smaller than
+that of the 50-layer case, the improvement of training error
+is still big (20% for ResNet-101 and 16% for 32×4d
+ResNeXt-101, Fig. 5 right). In fact, more training data
+will enlarge the gap of validation error, as we show on an
+ImageNet-5K set in the next subsection.
+
+
+
+Table 3 also suggests that with complexity preserved, increasing
+cardinality at the price of reducing width starts
+to show saturating accuracy when the bottleneck width is small. We argue that it is not worthwhile to keep reducing
+width in such a trade-off. So we adopt a bottleneck width
+no smaller than 4d in the following.
