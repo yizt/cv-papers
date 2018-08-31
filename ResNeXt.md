@@ -125,7 +125,9 @@ Formally, we present aggregated transformations as:
 
 形式上，我们提出的聚合转换为：
 
-$\cal F(x)= \sum_{i=0}^C T_i(x), \tag 2$
+$$
+\cal F(x)= \sum_{i=0}^C T_i(x), \tag 2
+$$
 where Ti(x) can be an arbitrary function. Analogous to a simple neuron, Ti should project x into an (optionally lowdimensional) embedding and then transform it
 
 ​        $\cal T_i(x)$ 可以是任意函数，类似一个简单神经元，$\cal T_i$ 投影x到一个嵌套(通常是低维的)，然后转换它。
@@ -231,29 +233,144 @@ We conduct ablation experiments on the 1000-class ImageNet classification task [
 Because we adopt the two rules in Sec. 3.1, it is sufficient for us to refer to an architecture by the template.
 For example, Table 1 shows a ResNeXt-50 constructed by a template with cardinality = 32 and bottleneck width = 4d (Fig. 3). This network is denoted as ResNeXt-50 (32×4d) for simplicity. We note that the input/output width of the template is fixed as 256-d (Fig. 3), and all widths are doubled each time when the feature map is subsampled (see Table 1).
 
+​          因为我们采用了3.1节中的两条规则，通过模板就足以说明一个架构了(因为所有的block都是一个逻辑)。例如，表Table 1显示了由基数= 32和bottleneck宽度= 4d的模板构建的ResNeXt-50(图Figure 3),这个网络简化的记做ResNeXt-50 (32×4d)。我们注意到模板的输入/输出宽度固定为256-d(图Figure 3), 且每次对feature map进行下采样时，所有宽度都翻倍(见表Table 1)。
 
-
-**Cardinality vs. Width.** 
+**基数 vs. 宽度.** 
 
 We first evaluate the trade-off between cardinality C and bottleneck width, under preserved complexity as listed in Table 2. Table 3 shows the results and Fig. 5 shows the curves of error vs. epochs. Comparing with ResNet-50 (Table 3 top and Fig. 5 left), the 32×4d ResNeXt-50 has a validation error of 22.2%, which is 1.7%
 lower than the ResNet baseline’s 23.9%. With cardinality C increasing from 1 to 32 while keeping complexity, the error rate keeps reducing. Furthermore, the 32×4d ResNeXt also has a much lower training error than the ResNet counterpart, suggesting that the gains are not from regularization but from stronger representations.
 
-
-
-Similar trends are observed in the case of ResNet-101
-(Fig. 5 right, Table 3 bottom), where the 32×4d ResNeXt101
-outperforms the ResNet-101 counterpart by 0.8%. Although
-this improvement of validation error is smaller than
-that of the 50-layer case, the improvement of training error
-is still big (20% for ResNet-101 and 16% for 32×4d
-ResNeXt-101, Fig. 5 right). In fact, more training data
-will enlarge the gap of validation error, as we show on an
-ImageNet-5K set in the next subsection.
+​         如表Table 2所示，我们首先在的保持复杂度的情况下，评估基数C和bottleneck宽度之间的权衡，表Table 3 展示了结果，图Figure 5展示了error vs. epochs的曲线。与ResNet-50对比(表Table 3顶部和图Figure 5左侧),32×4d ResNeXt-50验证误差为22.2%,比ResNet基线的23.9%低1.7%。保持复杂度，随着基数C从1增加到32，错误率不断降低。此外,32×4 d ResNeXt也比ResNet同行低得多的训练误差,说明性能提升不是来自正则化,而是来源于更强的表达能力。
 
 
 
-Table 3 also suggests that with complexity preserved, increasing
-cardinality at the price of reducing width starts
-to show saturating accuracy when the bottleneck width is small. We argue that it is not worthwhile to keep reducing
-width in such a trade-off. So we adopt a bottleneck width
-no smaller than 4d in the following.
+Similar trends are observed in the case of ResNet-101 (Fig. 5 right, Table 3 bottom), where the 32×4d ResNeXt101 outperforms the ResNet-101 counterpart by 0.8%. Although this improvement of validation error is smaller than that of the 50-layer case, the improvement of training error is still big (20% for ResNet-101 and 16% for 32×4d ResNeXt-101, Fig. 5 right). In fact, more training data will enlarge the gap of validation error, as we show on an ImageNet-5K set in the next subsection.
+
+​          在resnet - 101(图Figure5 右边,表Table 3底部)下也观察到类似的趋势,其中32×4d ResNeXt101优于resnet- 101 0.8%。虽然这种验证误差的提升比50层的情况要小，但是训练误差的提升任然是很大的(resnet-101 20%,32×4d resnext-101 16%,图Figure 5右边)。事实上，更多的训练数据将扩大验证误差的差距，如我们在下一小节中的ImageNet-5K集中所展示的那样。
+
+
+
+Table 3 also suggests that with complexity preserved, increasing cardinality at the price of reducing width starts to show saturating accuracy when the bottleneck width is small. We argue that it is not worthwhile to keep reducing width in such a trade-off. So we adopt a bottleneck width no smaller than 4d in the following.
+
+​       表3还表明，保持复杂度，当bottleneck宽度很小时，以减少宽度为代价的增加基数开始显示精度饱和(不再提升)。我们认为，在这种权衡中继续减少宽度是不值得的，因此，我们在下面采用一个不小于4d的bottleneck宽度。
+
+
+
+**增加基数 vs. 更深/更宽.** 
+
+Next we investigate increasing complexity by increasing cardinality C or increasing depth or width. The following comparison can also be viewed as with reference to 2× FLOPs of the ResNet-101 baseline. We compare the following variants that have ∼15 billion FLOPs. (i) Going deeper to 200 layers. We adopt the ResNet-200 [15] implemented in [11]. (ii) Going wider by increasing the bottleneck width. (iii) Increasing cardinality by doubling C.
+
+​        接下来，我们研究通过增加基数C或增加深度或宽度来增加复杂度。下面的比较也可以被视为关于2倍FLOPS resnet-101的基线; 我们比较有∼150亿FLOPs的如下几个变种。(i)深度加到200层,我们采用了在[11]中实现的ResNet-200[15]。(ii)通过增加bottleneck宽度来变宽。(iii)通过将C加倍来增加基数。
+
+
+
+Table 4 shows that increasing complexity by 2× consistently reduces error vs. the ResNet-101 baseline (22.0%). But the improvement is small when going deeper (ResNet200, by 0.3%) or wider (wider ResNet-101, by 0.7%)
+
+​          表Table 4表明相对ResNet-101基线误差(22.%)，复杂度加倍误差会一致减少;但是更深(ResNet200,提升0.3%)或更宽(更宽的ResNet-101,提升0.7%)时，提升很小。
+
+On the contrary, increasing cardinality C shows much better results than going deeper or wider. The 2×64d
+ResNeXt-101 (i.e., doubling C on 1×64d ResNet-101 baseline and keeping the width) reduces the top-1 error by 1.3% to 20.7%. The 64×4d ResNeXt-101 (i.e., doubling C on 32×4d ResNeXt-101 and keeping the width) reduces the top-1 error to 20.4%
+
+​         相反，增加基数C比更深或更宽结果要好得多，2×64d ResNeXt-101将top-1误差减少1.3%到达20.7%; The 64×4d ResNeXt-101误差减小到20.4%。
+
+We also note that 32×4d ResNet-101 (21.2%) performs better than the deeper ResNet-200 and the wider ResNet101, even though it has only ∼50% complexity. This again shows that cardinality is a more effective dimension than the dimensions of depth and width.
+
+​         同样注意到32×4d ResNet-101 (21.2%)比更深的ResNet-200 和更宽的ResNet101表现更好，虽然只有它们50%的复杂度。这再次表明，基数比深度和宽度更有效的维度。
+
+**残差连接**
+
+The following table shows the effects of the residual (shortcut) connections:Removing shortcuts from the ResNeXt-50 increases the error by 3.9 points to 26.1%. Removing shortcuts from its ResNet-50 counterpart is much worse (31.2%). These comparisons suggest that the residual connections are helpful for optimization, whereas aggregated transformations are stronger representations, as shown by the fact that they perform consistently better than their counterparts with or without residual connections.
+
+​         表显示了残差(shortcut)连接的影响:从ResNeXt-50删除shortcut将错误增加3.9个点，至26.1%。删除ResNet-50的shotcut要糟糕得多(31.2%)。这些比较表明，残差连接有助于优化，而聚合转换是更强的表示，因为它们的性能始终优于有或没有残差连接的对应的副本。
+
+**性能**
+
+For simplicity we use Torch’s built-in grouped convolution implementation, without special optimization. We note that this implementation was brute-force and not parallelization-friendly. On 8 GPUs of NVIDIA M40, training 32×4d ResNeXt-101 in Table 3 takes 0.95s per mini-batch, vs. 0.70s of ResNet-101 baseline that has
+similar FLOPs. We argue that this is a reasonable overhead. We expect carefully engineered lower-level implementation (e.g., in CUDA) will reduce this overhead. We also expect that the inference time on CPUs will present less overhead. Training the 2×complexity model (64×4d ResNeXt-101) takes 1.7s per mini-batch and 10 days total on 8 GPUs.
+
+​          为了简单起见，我们使用Torch的内置分组卷积实现，没有特别的优化。我们注意到这个实现是暴力的(brute-force)，不支持并行。在8块 NVIDIA M40 GPU上训练表Table 3所示的32×4d ResNeXt-101 每个mini-batch耗时0.95秒，对比ResNet-101 baseline耗时0.70s，FLOPs相当；我们认为这是合理的开销。我们认为经过精心设计的较低级别的实现(例如 CUDA)能够减少这种开销。我们还认为cpu上的推断时间会减少开销。训练2倍复杂度模型(64×4 d resnext - 101)需要1.7秒/ mini-batch和一共10天在8块GPU上。
+
+**与state-of-the-art结果比较**
+
+Table 5 shows more results of single-crop testing on the ImageNet validation set. In addition to testing a 224×224 crop, we also evaluate a 320×320 crop following [15]. Our results compare favorably with ResNet, Inception-v3/v4, and Inception-ResNet-v2, achieving a single-crop top-5 error rate of 4.4%. In addition, our architecture design is much simpler than all Inception models, and requires considerably fewer hyper-parameters to be set by hand.
+
+​          表Table 5显示了在ImageNet验证集上进行单裁剪测试的更多结果。除了测试一个224×224裁剪,我们也遵循[15]评估320×320裁剪。我们的结果优于ResNet、Inception-v3/v4和Inception-ResNet-v2，到达单裁剪top-5个错误率4.4%。此外，我们的架构设计比所有的Inception模型都要简单得多，并且需要手工设置的超参数要少得多。
+
+ResNeXt is the foundation of our entries to the ILSVRC 2016 classification task, in which we achieved 2nd place. We note that many models (including ours) start to get saturated on this dataset after using multi-scale and/or multicrop testing. We had a single-model top-1/top-5 error rates of 17.7%/3.7% using the multi-scale dense testing in [14], on par with Inception-ResNet-v2’s single-model results of 17.8%/3.7% that adopts multi-scale, multi-crop testing. We had an ensemble result of 3.03% top-5 error on the test set,on par with the winner’s 2.99% and Inception-v4/InceptionResNet-v2’s 3.08% [37].
+
+​         ResNeXt是我们参加ILSVRC 2016分类任务的基础，我们获得了第二名。  我们注意到，许多模型(包括我们的)在使用多尺度和/或多裁剪测试后开始饱和。使用[14]中的多尺度密集测试，我们得到了一个单模型的top-1/top-5错误率为17.7%/3.7%，与采用多尺度、多裁剪测试的inception-resnet-v2的单模型结果为17.8%/3.7%。在测试集中，我们的集成模型top-5得错误率为3.03%，与获胜者的2.99%和Inception-v4/InceptionResNet-v2的3.08%[37]相当。
+
+### 5.2. ImageNet-5K实验
+
+The performance on ImageNet-1K appears to saturate.But we argue that this is not because of the capability of the models but because of the complexity of the dataset. Next we evaluate our models on a larger ImageNet subset that has 5000 categories.
+
+​          ImageNet-1K上的性能似乎饱和了，但我们认为，这不是因为模型的能力，而是因为数据集的复杂度。接下来，我们在一个较大的ImageNet子集上评估模型，这个子集有5000个类别。
+
+Our 5K dataset is a subset of the full ImageNet-22K set [33]. The 5000 categories consist of the original ImageNet1K categories and additional 4000 categories that have the largest number of images in the full ImageNet set. The 5K set has 6.8 million images, about 5× of the 1K set. There is no official train/val split available, so we opt to evaluate on the original ImageNet-1K validation set. On this 1K-class val set, the models can be evaluated as a 5K-way classification task (all labels predicted to be the other 4K classes are
+automatically erroneous) or as a 1K-way classification task (softmax is applied only on the 1K classes) at test time
+
+​        我们的5K数据集是完整的ImageNet-22K集[33]的一个子集，这5000个类别包括原始的ImageNet1K中的类别和在完整的ImageNet数据集中具有最多图像数量的额外4000个类别。5k数据集有680万图片,大约5倍于1k数据集。没有官方可用的train/val分割，所以我们选择在原始的ImageNet-1K验证集上评估。在这个1k类val集上，预测时，模型可以被当做一个5k类分类任务(所有预测为其他4K类的标签都自动认为错误);或一个1K类分类任务(softmax只应用于1K类)来评估
+
+
+
+The implementation details are the same as in Sec. 4. The 5K-training models are all trained from scratch, and are trained for the same number of mini-batches as the 1Ktraining models (so 1/5× epochs). Table 6 and Fig. 6 show the comparisons under preserved complexity. ResNeXt-50 reduces the 5K-way top-1 error by 3.2% comparing with ResNet-50, and ResNetXt-101 reduces the 5K-way top-1 error by 2.3% comparing with ResNet-101. Similar gaps are observed on the 1K-way error. These demonstrate the stronger representational power of ResNeXt.
+
+​          实现细节与节4一样，5K训练模型从头开始训练，跟1K 训练模型一样的mini-batch数(这样epochs就只有1/5)。表Table 6和图Figure 6展示了在保持复杂度情况下的比较。ResNeXt-50比ResNet-50减少5K类 top-1错误3.2%，ResNetXt-101比ResNet-101减少5K类 top-1误差2.3%，在1k类误差上也观察到类似的差距，这些表明ResNeXt具有更强的表示能力。
+
+Moreover, we find that the models trained on the 5K set (with 1K-way error 22.2%/5.7% in Table 6) perform
+competitively comparing with those trained on the 1K set (21.2%/5.6% in Table 3), evaluated on the same 1K-way classification task on the validation set. This result is achieved without increasing the training time (due to the same number of mini-batches) and without fine-tuning. We argue that this is a promising result, given that the training task of classifying 5K categories is a more challenging one.
+
+​         此外，在验证集上评估相同的1K类分类任务，我们发现在5K集上训练的模型(在表Table 6中有1K类error 22.2%/5.7%)与在1K集(表Table 3中为21.2%/5.6%)上训练相比，表现出竞争力。此结果并没有增加训练时间(由于相同的mini-batch数量)，也没有微调。我们认为这是一个有希望的结果，因为5K类的分类训练任务是一个更具挑战性的任务。
+
+
+
+### 5.3. CIFAR实验
+
+datasets [23]. We use the architectures as in [14] and replace the basic residual block by the bottleneck template of $\left[1 \times1, 64 \\ 3 \times3,64 \\ 1 \times 1, 256  \right]$  Our networks start with a single 3×3 conv
+
+layer, followed by 3 stages each having 3 residual blocks, and end with average pooling and a fully-connected classifier (total 29-layer deep), following [14]. We adopt the same translation and flipping data augmentation as [14]. Implementation details are in the appendix.
+
+
+
+We compare two cases of increasing complexity based on the above baseline: (i) increase cardinality and fix all widths, or (ii) increase width of the bottleneck and fix cardinality = 1. We train and evaluate a series of networks under these changes. Fig. 7 shows the comparisons of test error rates vs. model sizes. We find that increasing cardinality is more effective than increasing width, consistent to what we have observed on ImageNet-1K. Table 7 shows the results and model sizes, comparing with the Wide ResNet [43] which is the best published record. Our model with a similar model size (34.4M) shows results better than Wide ResNet. Our larger method achieves 3.58% test error (average of 10 runs) on CIFAR-10 and 17.31% on CIFAR-100.
+To the best of our knowledge, these are the state-of-the-art results (with similar data augmentation) in the literature including unpublished technical reports.
+
+
+
+### 5.4. COCO目标检测实验
+
+​         Next we evaluate the generalizability on the COCO object
+detection set [27]. We train the models on the 80k training
+set plus a 35k val subset and evaluate on a 5k val subset
+(called minival), following [1]. We evaluate the COCOstyle
+Average Precision (AP) as well as AP@IoU=0.5 [27].
+We adopt the basic Faster R-CNN [32] and follow [14] to
+plug ResNet/ResNeXt into it. The models are pre-trained
+on ImageNet-1K and fine-tuned on the detection set. Implementation
+details are in the appendix.
+
+
+
+Table 8 shows the comparisons. On the 50-layer baseline,
+ResNeXt improves AP@0.5 by 2.1% and AP by 1.0%,
+without increasing complexity. ResNeXt shows smaller improvements
+on the 101-layer baseline. We conjecture that
+more training data will lead to a larger gap, as observed on
+the ImageNet-5K set.
+It is also worth noting that recently ResNeXt has been
+adopted in Mask R-CNN [12] that achieves state-of-the-art
+results on COCO instance segmentation and object detection
+tasks.
+
+
+
+## A. Implementation Details: CIFAR
+
+
+
+
+
+## B. Implementation Details: Object Detection
+
+
+
