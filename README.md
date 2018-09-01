@@ -11,7 +11,7 @@
 
 ## 基础网络
 
-[ResNeXt](ResNext.md)
+[ResNeXt](ResNeXt.md)
 
 
 
