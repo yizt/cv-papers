@@ -13,6 +13,8 @@
 
 [ResNeXt](ResNeXt.md)
 
+[DenseNet](NenseNet.md)
+
 
 
 ## 目标检测
