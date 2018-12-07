@@ -1,5 +1,9 @@
 # DeepLung: Deep 3D Dual Path Nets for Automated Pulmonary Nodule Detection and Classification
 
+[TOC]
+
+
+
 ​       In this work, we present a fully automated lung computed  tomography (CT) cancer diagnosis system, DeepLung.  DeepLung consists of two components, nodule detection  (identifying the locations of candidate nodules) and classification  (classifying candidate nodules into benign or malignant).  Considering the 3D nature of lung CT data and  the compactness of dual path networks (DPN), two deep  3D DPN are designed for nodule detection and classification  respectively. Specifically, a 3D Faster Regions with  Convolutional Neural Net (R-CNN) is designed for nodule  detection with 3D dual path blocks and a U-net-like  encoder-decoder structure to effectively learn nodule features.  For nodule classification, gradient boosting machine  (GBM) with 3D dual path network features is proposed.  The nodule classification subnetwork was validated on a  public dataset from LIDC-IDRI, on which it achieved better  performance than state-of-the-art approaches and surpassed  the performance of experienced doctors based on  image modality. Within the DeepLung system, candidate  nodules are detected first by the nodule detection subnetwork,  and nodule diagnosis is conducted by the classification  subnetwork. Extensive experimental results demonstrate  that DeepLung has performance comparable to experienced  doctors both for the nodule-level and patient-level  diagnosis on the LIDC-IDRI dataset.1  
 
 ​         本文提出一个全自动的肺部CT癌症诊断系统，DeepLung。DeepLung包括两部分，结节检测(识别候选结节位置)和分类（分类候选结节为良性或恶性）。考虑到肺部CT数据的3D特性和双路径网络（DPN)的压缩性，设计了两个深度3D DPN分别用于结节检测和回归。特别地，一个带3D双路径块和U-net型编码-解码结构的Faster RCNN来高效的学习结节特征。对于结节分类，提出一个带3D双路径的梯度提升机（GBM)，结节分类子网络验证了来自LIDC-IDRI的公开数据集，取得了比state-of-the-art更好的性能，并且在基于图像模式上超过了有经验医生。在DeepLung系统中，首先通过结节检测子网络检测出候选结节，使用分类子网络做结节诊断。广泛的实验结果表明，DeepLung在LIDC-IDRI数据集上的结节级别和患者级别诊断方面的性能均与经验丰富的医生相当。
@@ -59,4 +63,23 @@ Our main contributions are as follows: 1) To fully exploit  the 3D CT images, tw
 
 
 
-​           我们的主要贡献如下：1）为了充分利用3D CT图像，分别设计了两个深度3D ConvNets用于结节检测和分类。由于3D ConvNet包含太多参数且难以在相对较小的公开肺部CT数据集上进行训练，因此我们采用3D双路径网络作为神经网络架构，因为DPN使用较少的参数并获得比残差网络更好的性能[3]。具体来说，受到Faster R-CNN对物体检测有效性的启发[13]，我们提出了基于3D双路径网络和U-net类编码器 - 解码器结构以及深3D双路径的3D Faster R-CNN用于结节检测结核分类网络。 2）与最先进的方法相比，我们的分类框架实现了更好的性能，并且超过了公共数据集LIDC-IDRI上有经验的医生的表现。 3）我们的全自动DeepLung系统，基于检测的结节分类，与经验丰富的医生在结节水平和患者水平诊断方面的表现相当。
+​           我们的主要贡献如下：1）为了充分利用3D CT图像，分别设计了两个深度3D ConvNets用于结节检测和分类。由于3D ConvNet包含太多参数且难以在相对较小的公开肺部CT数据集上进行训练，因此我们采用3D双路径网络作为神经网络架构，因为DPN使用较少的参数并获得比残差网络更好的性能[3]。具体来说，受到Faster R-CNN对物体检测有效性的启发[13]，我们提出了基于3D双路径网络和U-net类编码器 - 解码器结构的3D Faster R-CNN用于结节检测，和深度3D双路径网络用于结节分类。 2）与最先进的方法相比，我们的分类框架实现了更好的性能，并且在公共数据集LIDC-IDRI上超过了有经验的医生的表现。 3）我们的全自动DeepLung系统，基于检测的结节分类，与经验丰富的医生在结节水平和患者水平诊断性能相当。
+
+
+
+## 相关工作
+
+Traditional nodule detection involves hand-designed features  or descriptors [19] requiring domain expertise. Recently,  several works have been proposed to use deep ConvNets  for nodule detection to automatically learn features,  which is proven to be much more effective than handdesigned  features. Setio et al. proposes multi-view ConvNet  for false positive nodule reduction [23]. Due to the  3D nature of CT scans, some work proposed 3D ConvNets  to handle the challenge. The 3D fully ConvNet (FCN) is  proposed to generate region candidates, and deep ConvNet  with weighted sampling is used for false positive reduction  [6]. Ding et al. and Liao et al. use the Faster R-CNN to  generate candidate nodules followed by 3D ConvNets to remove  false positive nodules [5, 17]. Due to the effective  performance of Faster R-CNN [13, 21], we design a novel  network, 3D Faster R-CNN with 3D dual path blocks, for  the nodule detection. Further, a U-net-like encoder-decoder  scheme is employed for 3D Faster R-CNN to effectively  learn the features [22].
+
+​        传统的结节检测涉及手工设计的特征或描述符[19]，需要领域专业知识。最近，已经提出了几项工作来使用深度ConvNets进行结节检测以自动学习特征，这被证明比手工设计的特征更有效。 Setio et al. 提出多视图ConvNet用于假阳性结节消减[23]。由于CT扫描的3D特性，一些工作提出3D ConvNets来应对挑战。提出使用3D全卷积网络（FCN）来生成候选区域，并且使用带加权采样的深度ConvNet进行假阳性消减[6]。Ding et al. 和Liao et al.使用Faster R-CNN生成候选结节，然后使用3D ConvNets去除假阳性结节[5,17]。由于Faster R-CNN [13,21]的高效性能，我们设计了一种新的网络，带3D双路径块的3D Faster R-CNN，用于结节检测。此外，U-net型的编码器 - 解码器方案被用于3D Faster R-CNN以有效地学习特征[22]。
+
+
+
+Nodule classification has traditionally been based on  segmentation [7] and manual feature design [1]. Several  works designed 3D contour feature, shape feature and texture  feature for CT nodule diagnosis [32, 7, 10]. Recently,  deep networks have been shown to be effective for medical  images. Artificial neural network was implemented for CT  nodule diagnosis [28]. More computationally effective network,  multi-scale ConvNet with shared weights for different  scales to learn scale-invariant features, is proposed for nodule classification [26]. Deep transfer learning and multi instance  learning is used for patient-level lung CT diagnosis  [25, 36]. A comparative study on 2D and 3D ConvNets  is conducted and 3D ConvNet is shown to be better than  2D ConvNet for 3D CT data [33]. Furthermore, a multitask  learning and transfer learning framework is proposed  for nodule diagnosis [14]. Different from their approaches,  we propose a novel classification framework for CT nodule  diagnosis. Inspired by the recent success of deep dual  path network (DPN) on ImageNet [3], we design a novel  3D DPN to extract features from raw CT nodules. In part to  the superior performance of GBM with complete features,  we employ GBM with different levels of granularity ranging  from raw pixels, DPN features, to global features such  as nodule size for the nodule diagnosis. Patient-level diagnosis  can be achieved by fusing the nodule-level diagnosis.
+
+​       结节分类传统上基于分割[7]和手动特征设计[1]。 几项工作为CT结节诊断设计了3D轮廓特征，形状特征和纹理特征[32,7,10]。最近，深度网络已被证明对医学图像有效。 人工神经网络用于CT结节诊断[28]。 为结节分类提出了更具计算效率的网络，具有不同尺寸间共享权重以学习尺寸不变特征[26]的多尺寸ConvNet。深度迁移学习和多实例学习用于患者级别肺部CT诊断[25,36]。对2D和3D ConvNets进行的比较研究，显示对于3D CT数据[33] 3D ConvNet优于2D ConvNet。此外，提出了一个多任务学习和转移学习框架用于结节诊断[14]。与他们的方法不同，我们提出了一种新颖的CT结节诊断框架。 受最近深度双路径网络（DPN）在ImageNet成功的的启发[3]，我们设计了一种新颖的3D DPN，用于从原始CT结节中提取特征。 部分由于具有完整特征的GBM的卓越性能，我们对结节诊断采用具有不同粒度级别的GBM，从原始像素，DPN特征到结节大小等全局特征。 通过融合结节级别诊断可以实现患者级别的诊断。
+
+
+
+​         
+
