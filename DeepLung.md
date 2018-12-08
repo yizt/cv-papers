@@ -10,7 +10,7 @@
 
 
 
-## 引言
+## 1. 引言
 
 Lung cancer is the most common cause of cancer-related
 death in men. Low-dose lung CT screening provides an effective
@@ -67,7 +67,7 @@ Our main contributions are as follows: 1) To fully exploit  the 3D CT images, tw
 
 
 
-## 相关工作
+## 2. 相关工作
 
 Traditional nodule detection involves hand-designed features  or descriptors [19] requiring domain expertise. Recently,  several works have been proposed to use deep ConvNets  for nodule detection to automatically learn features,  which is proven to be much more effective than handdesigned  features. Setio et al. proposes multi-view ConvNet  for false positive nodule reduction [23]. Due to the  3D nature of CT scans, some work proposed 3D ConvNets  to handle the challenge. The 3D fully ConvNet (FCN) is  proposed to generate region candidates, and deep ConvNet  with weighted sampling is used for false positive reduction  [6]. Ding et al. and Liao et al. use the Faster R-CNN to  generate candidate nodules followed by 3D ConvNets to remove  false positive nodules [5, 17]. Due to the effective  performance of Faster R-CNN [13, 21], we design a novel  network, 3D Faster R-CNN with 3D dual path blocks, for  the nodule detection. Further, a U-net-like encoder-decoder  scheme is employed for 3D Faster R-CNN to effectively  learn the features [22].
 
@@ -82,4 +82,65 @@ Nodule classification has traditionally been based on  segmentation [7] and manu
 
 
 ​         
+
+### 3. DeepLung框架
+
+Our fully automated lung CT cancer diagnosis system
+consists of two parts: nodule detection and classification.
+We design a 3D Faster R-CNN for nodule detection, and
+propose GBM with deep 3D DPN features, raw nodule CT
+pixels and nodule size for nodule classification.
+
+​           我们的全自动肺部CT癌症诊断系统包括两部分：肺部检测和分类；我们为结节检测设计了3D Faster R-CNN ，并为结节分类提出了带深度3D DPN特征、原始结节CT像素和结节尺寸的GBM。
+
+### 3.1. 用于结节检测的带深度3D双路径网络的3D Faster R-CNN 
+
+Inspired by the success of dual path network on the ImageNet  [3, 4], we design a deep 3D DPN framework for lung  CT nodule detection and classification in Fig. 3 and Fig.  4. Dual path connection benefits both from the advantage  of residual learning and that of dense connection [11, 12].  The shortcut connection in residual learning is an effective  way to eliminate vanishing gradient phenomenon in very  deep networks. From a learned feature sharing perspective,  residual learning enables feature reuse, while dense connection  has an advantage of exploiting new features [3]. Additionally,  densely connected network has fewer parameters  than residual learning because there is no need to relearn  redundant feature maps. The assumption of dual path con nection is that there might exist some redundancy in the exploited
+features. And dual path connection uses part of feature maps for dense connection and part of them for residual learning. In implementation, the dual path connection splits its feature maps into two parts. One part, F(x)[d :], is used for residual learning, the other part, F(x)[: d], is used for dense connection as shown in Fig. 2. Here d is a hyper-parameter for deciding how many new features to be exploited. The dual path connection can be formulated as
+
+​        受双路径网络在ImageNet上成功的启发[3,4]，我们在图Fig 3和图Fig 4中设计了一个用于肺部CT结节检测和分类的深度3D DPN框架。双路连接受益于残差学习和密集连接的优势[11,12]。 残差学习中的快捷连接是消除深度网络中消失梯度现象的有效方法。 从学习的特征共享角度来看，残差学习可以实现特征重用，而密集连接则具有利用新功能的优势[3]。此外，密集连接的网络比残差学习具有更少的参数，因为不需要重新学习冗余特征图。 双路径连接假设在被利用的特征中可能存在一些冗余。并且双路径连接使用部分特征进行密集连接，部分用于残差学习。 在实现中，双路径连接将其特征分成两部分。 一部分F（x）[d：]用于残差学习，另一部分F（x）[：d]用于密集连接，如图Fig 2所示。这里d是超参数 用于决定要采用的新功能的数量。 双路径连接可以表示为
+
+
+$$
+y = \bf G(x[:d], \bf F(x) [:d], \bf F(x)[d:] + x[d:]),  \tag 1
+$$
+where y is the feature map for dual path connection, G is  used as ReLU activation function, F is convolutional layer  functions, and x is the input of dual path connection block.  Dual path connection integrates the advantages of the two  advanced frameworks, residual learning for feature reuse  and dense connection for the ability to exploit new features,  into a unified structure which obtained success on the ImageNet  dataset[4]. We design deep 3D neural nets based on  3D DPN because of its compactness and effectiveness 。
+
+​        y是双路径连接的特征，G是ReLU激活函数，F是卷积层函数，x是双路径连接块的输入。双路径连接集成了两个高级框架的优势，将残差学习的特征重用和密集连接的新特征利用的集成到一个统一的结构中，该结构在ImageNet数据集上取得了成功[4]。 由于其紧凑性和有效性，我们设计了基于3D DPN的深度3D神经网络。
+
+The 3D Faster R-CNN with a U-net-like encoderdecoder  structure and 3D dual path blocks is illustrated in  Fig. 3. Due to the GPU memory limitation, the input of 3D  Faster R-CNN is cropped from 3D reconstructed CT images  with pixel size 96 × 96 × 96. The encoder network  is derived from 2D DPN [3]. Before the first max-pooling,  two convolutional layers are used to generate features. After  that, eight dual path blocks are employed in the encoder  subnetwork. We integrate the U-net-like encoder-decoder  design concept in the detection to learn the deep nets efficiently  [22]. In fact, for the region proposal generation, the  3D Faster R-CNN conducts pixel-wise multi-scale learning  and the U-net is validated as an effective way for pixel-wise  labeling. This integration makes candidate nodule generation  more effective. In the decoder network, the feature  maps are processed by deconvolution layers and dual path  blocks, and are subsequently concatenated with the corresponding  layers in the encoder network [34]. Then a convolutional  layer with dropout (dropout probability 0.5) is used  in the second to the last layer. In the last layer, we design 3  anchors, 5, 10, 20, for scale references which are designed  based on the distribution of nodule sizes. For each anchor,  there are 5 parts in the loss function, classification loss Lcls  for whether the current box is a nodule or not, regression  loss Lreg for nodule coordinates x, y, z and nodule size d.
+
+​        具有U-net型编码器解码器结构和3D双路径块的3D Faster R-CNN如图Fig 3所示。由于GPU内存限制，3D Faster R-CNN的输入是从3D重建CT图像中裁剪出来的，像素大小为96×96×96。编码器网络来自2D DPN [3]。 在第一个最大池化之前，使用两个卷积层来生成特征。之后，在编码器子网中使用8个双路径块。我们在检测中集成了U-net型的编码器 - 解码器设计概念，以便有效地学习深度网络[22]。实际上，对于区域提议生成，3D Faster R-CNN进行像素方式的多尺度学习，并且U-net被验证为用于像素标注的有效方式。这种集成使候选结节的产生更加有效。在解码器网络中，特征图由反卷积层和双路径块处理，并随后与编码器网络中的相应层拼接[34]。然后在第二层到最后一层使用带dropout（丢失概率0.5）的卷积层。在最后一层，我们基于结节尺寸分布设计了3个anchor，5,10,20，用做尺寸参考。对于每个anchor，损失函数中有5个部分，当前边框是否为结节的分类损失$L_{cls}$，结节坐标x，y，z和结节大小d的回归损失$L_{reg}$。
+
+
+
+If an anchor overlaps a ground truth bounding box with  the intersection over union (IoU) higher than 0.5, we consider  it as a positive anchor (p  ? = 1). On the other hand,  if an anchor has IoU with all ground truth boxes less than  0.02, we consider it as a negative anchor (p  ? = 0). The  multi-task loss function for the anchor i is defined as
+
+​        如果anchor和ground truth边框的交并比（IoU)大于0.5，则为正anchor($p^*=1$), 另一方面,如果一个anchor与所有ground truth边框的IoU都小于0.02，则作为负anchor($p^*=0$)。对于anchor $i$的多任务损失函数定义为：
+$$
+L(p_i, t_i) = λL_{cls}(p_i, p^*
+_i) + p^*_i L_{reg}(t_i
+, t_i^*),  \tag 2
+$$
+where pi is the predicted probability for current anchor i being a nodule, ti is the predicted relative coordinates for nodule position, which is defined as
+
+​        $p_i$ 当前anchor $i$ 预测为结节的概率，$t_i$ 是相应的结节位置坐标预测，定义为：
+$$
+t_i = (\frac {x-x_a} {d_a}, \frac {y-y_b} {d_a}, \frac {z- z_a} {d_a}, log(\frac {d} {d_a})) \tag 3
+$$
+ where (x, y, z, d) are the predicted nodule coordinates and diameter in the original space, (xa, ya, za, da) are the coordinates and scale for the anchor i. For ground truth nodule position, it is defined as
+
+​          $ (x, y, z, d) $ 是预测的原空间中结节坐标和直径， $(x_a, y_a, z_a, d_a) $ 是anchor $i$ 的坐标和尺寸，对于ground truth结节位置，定义如下：
+$$
+t_i^* = (\frac {x^*-x_a} {d_a}, \frac {y^*-y_b} {d_a}, \frac {z^*- z_a} {d_a}, log(\frac {d^*} {d_a})) \tag 3
+$$
+where (x?, y?, z?, d?) are nodule ground truth coordinatesand diameter. The λ is set as 0.5. For Lcls, we used binary cross entropy loss function. For Lreg, we used smooth l1 regression loss function [9].
+
+​         $(x^*, y^*, z^*, d^*)$ 是结节的实际坐标和直径， λ 为0.5; 对于$L_{cls}$ 使用二分类交叉熵损失函数，对于$L_{reg}$ 使用平滑L1回归损失函数[9].
+
+
+
+### 3.2 用于结节分类的带3D 双路径网络特征的GBM
+
+For CT data, advanced method should be effective to extract  3D volume feature [33]. We design a 3D deep dual  path network for the 3D CT lung nodule classification in Fig. 4. The main reason we employ dual modules for detection  and classification is that classifying nodules into benign  and malignant requires the system to learn finer-level  features, which can be achieved by focusing only on nodules.  In addition, it allows to introduce extra features in the  final classification. We first crop CT data centered at predicted  nodule locations with size 32 × 32 × 32. After that,  a convolutional layer is used to extract features. Then 30  3D dual path blocks are employed to learn higher level features.  Lastly, the 3D average pooling and binary logistic  regression layer are used for benign or malignant diagnosis.
 
