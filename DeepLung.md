@@ -258,11 +258,7 @@ We employ the DeepLung for patient-level diagnosis further. If the current CT ha
 
 From Table 5, DeepLung achieves 81.41% patient-level diagnosis accuracy. This is 99% of the average performance of four experienced doctors and better than Dr 4 altogether. This performance gives confidence that DeepLung can be a useful tool to assist doctors’ in their diagonsis. We further validate our method against the four doctors’ individual confidential CTs. The Kappa coefficient of DeepLung is 63.02%, while the average Kappa coefficient of the doctors is 64.46%. It implies the predictions of DeepLung are of good agreement with ground truths for patient-level diagnosis, and are comparable with those of experienced doctors
 
-​        表Table 5中，DeepLung达到81.41％的患者水平诊断准确性。 这是四位经验丰富的医生平均表现的99％，并且优于第4位医生。 这种表现让人相信DeepLung可以成为帮助医生解决问题的有用工具。 我们进一步验证了我们针对四位医生的各自确信的CT。 DeepLung的Kappa系数为63.02％，而医生的平均Kappa系数为64.46％。 这意味着DeepLung的预测与患者级诊断的ground truth非常吻合，并且与经验丰富的医生相当
-
-
-
-
+​        表Table 5中，DeepLung达到81.41％的患者水平诊断准确性。 这是四位经验丰富的医生平均表现的99％，并且优于第4位医生。 这种表现让人相信DeepLung可以成为帮助医生解决问题的有用工具。 我们进一步验证了我们针对四位医生的各自确信的CT。 DeepLung的Kappa系数为63.02％，而医生的平均Kappa系数为64.46％。 这意味着DeepLung的预测与患者级诊断的ground truth非常吻合，并且与经验丰富的医生相当.
 
 
 
@@ -270,11 +266,17 @@ From Table 5, DeepLung achieves 81.41% patient-level diagnosis accuracy. This is
 
 In this section, we will argue the utility of DeepLung by visualizing the nodule detection and classification results.
 
+​        在本节中，我们将通过可视化结节检测和分类结果来论证DeepLung的实用性。
+
 ### 5.1. 结节检测
 
 We randomly pick nodules from test fold 1 and visualize them in red circles in the first row of Fig. 7. Detected nodules are visualized in blue circles of the second row. Because CT is 3D voxel data, we can only plot the central slice for visualization. The third row shows the detection probabilities for the detected nodules. The central slice number is shown below each slice. The diameter of the circle is relative to the nodule size.
 
+​        我们从测试集第1折(fold)中随机挑取结节，并在图Fig 7的第一行中以红色圆圈显示它们。检测到的结节在第二行的蓝色圆圈中可视化。 因为CT是3D体素数据，所以我们只能绘制中心切片以进行可视化。 第三行显示检测到的结节的检测概率。 中心切片编号显示在每个切片下方。 圆的直径与结节大小相关。
+
 From the central slice visualizations in Fig. 7, we observe the detected nodule positions including central slice numbers are consistent with those of ground truth nodules. The circle sizes are similar between the nodules in the first row and the second row. The detection probability is also very high for these nodules in the third row. It shows 3D Faster R-CNN works well to detect the nodules from test fold 1.
+
+​      从图Fig 7中的中心切片可视化，我们观察到检测到的结节位置，包括中心切片数与ground truth结节的结果一致。 第一行和第二行中的结节之间的圆形大小相似。 第三行中的这些结节检测概率也非常高。 它显示3D Faster R-CNN可以很好地检测测试第1折中的结节。
 
 
 
@@ -282,9 +284,11 @@ From the central slice visualizations in Fig. 7, we observe the detected nodule 
 
 We also visualize the nodule classification results from test fold 1 in Fig. 8. We choose nodules that is predicted right, but annotated incorrectly by some doctors. The first seven nodules are benign nodules, and the remaining nodules are malignant nodules. The numbers below the figures are the DeepLung predicted malignant probabilities followed by which annotation of doctors is wrong. For the DeepLung, if the probability is larger than 0.5, it predicts malignant. Otherwise, it predicts benign. For an experienced doctor, if a nodule is large and has irregular shape, it has a high probability to be a malignant nodule.
 
-
+​       我们还可以看到图Fig 8中测试集第1折的结节分类结果。我们选择预测正确的结节，但是一些医生标注不正确。 前七个结节是良性结节，其余结节是恶性结节。 图下方的数字是DeepLung预测的恶性概率，随后是医生的错误标注。 对于DeepLung，如果概率大于0.5，则预测恶性。 否则，它预测良性。 对于有经验的医生来说，如果结节很大并且形状不规则，则很可能是恶性结节。    
 
 From Fig. 8, we can observe that doctors mis-diagnose some nodules. The reason may be be that humans are not fit to process 3D CT data which are of low signal to noise ratio. Perhaps some doctors cannot find some weak irregular boundaries or erroraneously consider some normal tissues as nodule boundaries leading to false negatives or false positives. In addition, doctors’ own internal bias may play a role in how confident he/she predicts these scans while being limited to observing only one slice at a time. Machine learning-based methods can overcome these limitations and are able to learn complicated rules and high dimensional features while utilizing all input slices at once without much problem. From this perspective, DeepLung can potentially be of great use to doctors in their effort to make consistent and accurage diagonsis.
+
+​        图8中，我们可以观察到医生误诊了一些结节。 原因可能是人类不适合处理具有低信噪比的3D CT数据。 也许一些医生找不到一些弱的不规则边界或错误地认为一些正常组织为结节边界导致假阴性或假阳性。 此外，医生自身的内在偏差可能会影响他/她预测这些扫描的确信度，当仅一次仅观察一个切片。 基于机器学习的方法可以克服这些限制，并且能够在一次利用所有输入切片的同时学习复杂的规则和高维特征而没有太多问题。 从这个角度来看，DeepLung可能对医生有很大的用处，他们努力做出一致和准确的诊断。
 
 
 
