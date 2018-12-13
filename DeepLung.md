@@ -83,7 +83,7 @@ Nodule classification has traditionally been based on  segmentation [7] and manu
 
 ​         
 
-### 3. DeepLung框架
+## 3. DeepLung框架
 
 Our fully automated lung CT cancer diagnosis system
 consists of two parts: nodule detection and classification.
@@ -144,3 +144,150 @@ where (x?, y?, z?, d?) are nodule ground truth coordinatesand diameter. The λ i
 
 For CT data, advanced method should be effective to extract  3D volume feature [33]. We design a 3D deep dual  path network for the 3D CT lung nodule classification in Fig. 4. The main reason we employ dual modules for detection  and classification is that classifying nodules into benign  and malignant requires the system to learn finer-level  features, which can be achieved by focusing only on nodules.  In addition, it allows to introduce extra features in the  final classification. We first crop CT data centered at predicted  nodule locations with size 32 × 32 × 32. After that,  a convolutional layer is used to extract features. Then 30  3D dual path blocks are employed to learn higher level features.  Lastly, the 3D average pooling and binary logistic  regression layer are used for benign or malignant diagnosis.
 
+​        对于CT数据，高级方法应该可以有效地提取3D体积特征[33]。 在图Fig 4中，我们为3D CT肺结节分类设计了一个3D深度双路径网络。我们采用双模块进行检测和分类的主要原因是，将结节分为良性和恶性，需要系统学习更精细的特征， 这可以通过仅聚焦到结节上实现。 此外，它允许在最终分类中引入额外的特征。 我们首先以预测的结节位置为中心裁剪CT数据，其大小为32×32×32。之后，使用卷积层提取特征。 然后使用30个3D双路径块来学习更高级别的特征。 最后，3D平均池化和二分类逻辑回归层用于良性或恶性诊断。
+
+The deep 3D dual path network can be used as a classifier  for nodule diagnosis directly and it can also be employed  to learn effective features. We construct feature by  concatenating the learned deep 3D DPN features (the second  from the last layer (2,560 dimension)), nodule size, and  raw 3D cropped nodule pixels. Given complete and effective  features, GBM is a superb method to build an advanced  classifier [8]. We validate the feature combining nodule size  with raw 3D cropped nodule pixels in combination with the  GBM classifier and obtained 86.12% average test accuracy.  Lastly, we employ GBM with the constructed feature and  achieve the best diagnosis performance.
+
+深度3D双路径网络可以直接用作结节诊断的分类器，也可以用于学习有效特征。 我们通过拼接学习的深3D DPN特征（最后一层（2,560维）），结节大小和原始3D裁剪结节像素来构建特征。 给定完整有效的特征，GBM是构建高级分类器的极好方法[8]。 我们验证了将结节大小与原始3D裁剪结节像素结合使用并结合GBM分类器的特征，并获得了86.12％的平均测试精度。 最后，我们采用具有构造特征的GBM，并实现最佳诊断性能。
+
+
+
+### 3.3. DeepLung系统: 全自动肺部CT癌症诊断
+
+The DeepLung system includes the nodule detection using the 3D Faster R-CNN and nodule classification using GBM with constructed feature (deep 3D dual path features, nodule size and raw nodule CT pixels) as shown in Fig. 1.
+
+​          DeepLung系统包括使用3D Faster R-CNN的结节检测和使用GBM的结节分类，带有构造特征（深度3D双路径特征，结节尺寸和原始结节CT像素），如图Fig 1所示。
+
+Due to the GPU memory limitation, we first split the  whole CT into several 96 × 96 × 96 patches, process them  through the detector, and combine the detected results together.  We only keep the detected boxes of detection probabilities  larger than 0.12 (threshold as -2 before sigmoid  function). After that, non-maximum suppression (NMS) is  adopted based on detection probability with the intersection  over union (IoU) threshold as 0.1. Here we expect to not  miss too many ground truth nodules.
+
+​        由于GPU内存限制，我们首先将整个CT分成几个96×96×96补丁，通过检测器处理它们，并将检测到的结果组合在一起。 我们只保留检测到的检测概率大于0.12的阈值（在sigmoid函数之前阈值为-2）。 之后，基于检测概率采用非最大抑制（NMS），其中交并比（IoU）阈值为0.1。 在这里，我们希望不要错过太多的ground truth结节。
+
+After we get the detected nodules, we crop the nodule  with the center as the detected center and size of 32 × 32 ×  32. The detected nodule size is kept as a feature input for  later downstream classification. The deep 3D DPN is employed  to extract features. We use the GBM and construct  features to conduct diagnosis for the detected nodules. For  pixel feature, we use the cropped size of 16 × 16 × 16  and center as the detected nodule center in the experiments.  For patient-level diagnosis, if one of the detected nodules is  positive (cancer), the patient is classified as having cancer.  Conversely, if all detected nodules are negative, the patient  is considered non-cancer.
+
+​         在我们得到检测到的结节后，我们裁剪结节，中心为检测中心，大小为32×32×32。检测到的结节大小作为特征输入保留，供给之后的下游分类。 深度3D DPN用于提取特征。 我们使用GBM，并构建特征来对检测到的结节进行诊断。 对于像素特征，我们使用16×16×16的裁剪尺寸，中心作为实验中检测到的结节中心。 对于患者水平的诊断，如果检测到的结节之一是阳性（癌症），则患者被归类为患有癌症。 相反，如果所有检测到的结节均为阴性，则该患者被认为是非癌症。
+
+
+
+
+
+## 4.实验
+
+We conduct extensive experiments to validate the DeepLung system. We perform 10-fold cross validation using the detector on LUNA16 dataset. For nodule classification, we use the LIDC-IDRI annotation, and employ the LUNA16’s patient-level dataset split. Finally, we also validate the whole system based on the detected nodules both on patient-level diagnosis and nodule-level diagnosis.
+
+​        我们通过实验验证DeepLung系统，在LUNA16数据集上使用检测器进行10-折交叉验证。对于结节分类，我们使用LIDC-IDRI标注，并使用LUNA16的患者级数据集分割。最后，我们在患者级别诊断和结节级别诊断上基于结节检测验证了整个系统。
+
+In the training, for each model, we use 150 epochs in total with stochastic gradient descent optimization and momentum as 0.9. The batch size parameter is limited by GPU memory. We use weight decay as 1 × 10−4 . The initial learning rate is 0.01, 0.001 after half the total number of epoch, and 0.0001 after epoch 120。
+
+​        在训练中，对于每个模型，我们总共训练150轮，使用随机梯度下降优化和动量为0.9。 批大小参数受GPU内存限制。 我们使用重量衰减为$1 × 10^{-4} $。 初始学习率为0.01，在总轮数的一半之后为0.001，在120轮之后为0.0001。
+
+​           
+
+### 4.1. 数据集
+
+LUNA16 dataset is a subset of the largest publicly available dataset for pulmonary nodules, LIDC-IDRI [2, 24]. LUNA16 dataset only has the detection annotations, while LIDC-IDRI contains almost all the related information for low-dose lung CTs including several doctors’ annotations on nodule sizes, locations, diagnosis results, nodule texture, nodule margin and other informations. LUNA16 dataset removes CTs with slice thickness greater than 3mm, slice spacing inconsistent or missing slices from LIDC-IDRI dataset, and explicitly gives the patient-level 10-fold cross validation split of the dataset. LUNA16 dataset contains 888 low-dose lung CTs, and LIDC-IDRI contains 1,018 low-dose lung CTs. Note that LUNA16 dataset removes the annotated nodules of size smaller than 3mm。
+
+​         LUNA16数据集是最大的公共可用肺结节数据集的子集，LIDC-IDRI [2,24]。 LUNA16数据集仅具有检测标注，而LIDC-IDRI几乎包含低剂量肺CT的所有相关信息，包括几个医生对结节大小，位置，诊断结果，结节质地，结节边缘和其他信息的标注。 LUNA16数据集从LIDC-IDRI数据集中移除切片厚度小于于3mm，切片间距不一致或缺少切片的CT，并明确给出数据集的患者级10-折交叉验证分割。 LUNA16数据集包含888个低剂量肺CT，LIDC-IDRI包含1,018个低剂量肺CT。 请注意，LUNA16数据集删除大小小于3毫米的结节。
+
+For nodule classification, we extract nodule annotations from LIDC-IDRI dataset, find the mapping of different doctors’ nodule annotations with the LUNA16’s nodule annotations, and obtained the ground truth of nodule diagnosis by averaging different doctors’ diagnosis (discarding 0 score for diagnosis which corresponds to N/A.). If the final average score is equal to 3 (uncertain about malignant or benign), we remove the nodule. For the nodules with score greater than 3, we label them as positive. Otherwise, we label them as negative. Because CT slides were annotated by anonymous doctors, the identities of doctors (referred to as Drs 1-4 as the 1st-4th annotations) are not strictly consistent. As such, we refer them as “simulated” doctors. To make our results reproducible, we only keep the CTs within LUNA16 dataset, and use the same cross validation split as LUNA16 for classification.
+
+​          对于结节分类，我们从LIDC-IDRI数据集中提取结节标注，找到不同医生的结节标注与LUNA16结节标注的对应关系，并通过平均不同医生的诊断获得结节诊断的ground truth（丢弃0分为诊断结果,对应于N / A.）。 如果最终平均分数等于3（不确定恶性或良性），我们删除这个结节。 对于评分大于3的结节，我们将其标记为阳性。 否则，我们将它们标记为阴性。 由于CT切片由匿名医生标注，医生的身份（称为Drs1-4作为第1至第4标注）并不严格一致。 因此，我们将他们称为“模拟”医生。 为了使我们的结果可重现，我们将只保留LUNA16数据集中CT，并使用与LUNA16相同的交叉验证分割进行分类。
+
+### 4.2. 预处理
+
+Three automated preprocessing steps are employed for the input CT images. First, we clip the raw data into [−1200, 600]. Second, we transform the range linearly into [0, 1]. Finally, we use LUNA16’s given segmentation ground truth and remove the background.
+
+​       输入CT图像采用了三个自动预处理步骤。 首先，我们将原始数据剪辑为[-1200,600]。 其次，我们将值范围线性转换到[0,1]。 最后，我们使用LUNA16给出的分割ground-truth并删除背景。
+
+### 4.3. DeepLung结节检测
+
+We train and evaluate the detector on LUNA16 dataset  following 10-fold cross validation with given patient-level  split. In training, we augment the dataset by randomly flipping  the image and use cropping scale betweeb 0.75 to 1.25.  The evaluation metric, FROC, is the average recall rate at  the average number of false positives at 0.125, 0.25, 0.5,  1, 2, 4, 8 per scan, which is the official evaluation metric  for LUNA16 dataset [24]. In the test phase, we use detection  probability threshold as -2 (before sigmoid function),  followed by NMS with IoU threshold as 0.1.
+
+​        我们在给定患者级别分割(split)的LUNA16数据集上使用10-折交叉验证法训练和评估的检测器。 在训练中，我们通过随机翻转图像来做数据集增强，并使用0.75到1.25的比例裁剪。 评估指标FROC是每个扫描平均误报数为0.125,0.25,0.5,1,2,4,8的平均召回率，这是LUNA16数据集的官方评估指标[24]。 在测试阶段，我们使用检测概率阈值-2（在sigmoid函数之前），然后使用IoU阈值为0.1的NMS。
+
+To validate the performance of proposed deep 3D dual  path network for detection, we employ a deep 3D residual  network as a comparison in Fig. 5. The encoder part of  this baseline network is a deep 3D residual network of 18  layers, which is an extension from 2D Res18 net [11]. Note  that the 3D Res18 Faster R-CNN contains 5.4M trainable  parameters, while the 3D DPN26 Faster R-CNN employs  1.4M trainable parameters, which is only 1/4  of 3D Res18  Faster R-CNN.
+
+​        为了验证所提出的深度3D双路径网络的检测性能，在图Fig 5中，我们采用深度3D残差网络作比较。该基线网络的编码器部分是18层的深度3D残差网络，扩展自2D Res18 net [11]。 请注意，3D Res18 Faster R-CNN包含5.4M可训练参数，而3D DPN26 Faster R-CNN使用1.4M可训练参数，这仅是3D Res18 Faster R-CNN的1/4。
+
+The FROC performance on LUNA16 is visualized in  Fig. 6. The solid line is interpolated FROC based on true  prediction. The 3D DPN26 Faster R-CNN achieves a FROC  score of 84.2% without any false positive nodule reduction  stage, which is better than the previous 83.9% using  two-stage training [6]. The 3D DPN26 Faster R-CNN using  only 1/4  of the parameters performs better than the 3D  Res18 Faster R-CNN, which demonstrates the superior suitability  of the 3D DPN for detection. Ding et al. obtains  89.1% FROC using 2D Faster R-CNN followed by extra  false positive reduction classifier [5], while we only employ  enhanced Faster R-CNN with deep 3D dual path for detection.  We have recently applied the 3D model to Alibaba  Tianchi Medical AI on nodule detection challenge and were  able to achieve top accuracy on a hold-out dataset.
+
+​         LUNA16上的FROC性能可视化在图Fig 6中。实线是基于真实预测的内插FROC。 3D DPN26 Faster R-CNN获得了84.2％的FROC评分，没有任何假阳性结节消减阶段，这比之前使用两阶段训练的83.9％更好[6]。 仅使用1/4参数的3D DPN26 Faster R-CNN比3D Res18 Faster R-CNN表现更好，这证明了3D DPN对于检测的出色适用性。 Ding et al. 使用2D Faster R-CNN 接一个额外的假阳性消减分类器[5]获得89.1％的FROC，而我们只采用带深度3D双路径的增强版Faster R-CNN进行检测。 我们最近将3D模型应用于阿里巴巴天池医疗AI对结核检测的挑战，并且能够在保留的数据集上达到最高精度。
+
+
+
+### 4.4. DeepLung结节分类
+
+We validate the nodule classification performance of the DeepLung system on the LIDC-IDRI dataset with the LUNA16’s split principle, 10-fold patient-level cross vali-dation. There are 1,004 nodules of which 450 are positive. In the training, we first pad the nodules of size 32×32×32 into 36 × 36 × 36, randomly crop 32 × 32 × 32 from the padded data, horizontal flip, vertical flip, z-axis flip the data for augmentation, randomly set 4 × 4 × 4 patch to zero, and normalize the data with the mean and standard deviation obtained from training data. The total number of epochs is 1,050. The initial learning rate is 0.01, and reduce to 0.001 after epoch 525, and finally to 0.0001 after epoch 840. Due to time and resource limitation for training, we use the fold 1, 2, 3, 4, 5 for test, and the final performance is the average performance on the five test folds. The nodule classification performance is concluded in Table 1.
+
+​         我们在LIDC-IDRI数据集上使用LUNA16的分割原则，10折患者级别的交叉验证，验证DeepLung系统的结节分类性能。 有1,004个结节，其中450个是阳性的。 在训练中，我们首先将尺寸为32×32×32的结节填充到36×36×36，从填充数据中随机裁剪32×32×32，水平翻转，垂直翻转，z轴翻转数据进行增强， 将4×4×4的patch随机设置为零，并用训练数据得到的均值和标准差对数据进行归一化。训练总轮数为1,050。 初始学习率为0.01，在525轮之后减少到0.001，最终在840轮之后减少到0.0001。由于训练的时间和资源限制，我们使用1,2,3,4,5折进行测试，并且 最终性能是五折测试的平均性能。 结核分类性能见表Table 1。
+
+From the table 1, our deep 3D DPN achieves better performance than those of Multi-scale CNN [26], Vanilla 3D CNN [33] and Multi-crop CNN [27], because of the strong power of 3D structure and deep dual path network. GBM with nodule size and raw nodule pixels with crop size as 16 × 16 × 16 achieves comparable performance as multiscale CNN [26] because of the superior classification performance of GBM. Finally, we construct feature with deep 3D dual path network features, 3D Faster R-CNN detected nodule size and raw nodule pixels, and obtain 90.44% accuracy, which shows the effectiveness of deep 3D dual path network features.
+
+​        从表1可以看出，我们的深度3D DPN比多尺度CNN [26]，Vanilla 3D CNN [33]和多裁剪CNN [27]具有更好的性能，因为3D结构的强大功能和深度双路径 网络。 由于GBM的优越分类性能，带结节尺寸和裁剪尺寸为16×16×16的原始结节像素的GBM实现了与多尺度CNN相当的性能[26]。 最后，我们使用深度3D双路网络特征，3D Faster R-CNN检测到的结节大小和原始结节像素来构建特征，并获得90.44％的准确度，这表明了深度3D双路网络特征的有效性。
+
+#### 4.4.1 与经验丰富的医生在他们各自置信结节比较
+
+We compare our predictions with those of four “simulated” experienced doctors on their individually confident nodules (with individual score not 3). Note that about 1/3 annotations are 3. Comparison results are concluded in Table 2.  
+
+​       我们将我们的预测与四名“模拟”经验丰富的医生的各自置信结节进行比较（个体得分不为3）。 注意，约1/3标注是3. 比较结果在表2中得出。
+
+From Table 2, these doctors’ confident nodules are easy to be diagnosed nodules from the performance comparison between our model’s performances in Table 1 and Table 2. To our surprise, the average performance of our model is 1.5% better than that of experienced doctors even on their individually confident diagnosed nodules. In fact, our model’s performance is better than 3 out of 4 doctors (doctor 1, 3, 4) on the confident nodule diagnosis task. The result validates deep network surpasses human-level performance for image classification [11], and the DeepLung is better suited for nodule diagnosis than experienced doctors.
+
+​        从表Table 2中可以看出，这些医生确信的结节很容易被诊断，在表Table 1和表Table 2中有我们的模型的性能比较。令我们惊讶的是，在他们各自确信的诊断结节上，我们的模型的平均表现比经验丰富的医生好1.5％ 。 事实上，在确信的结节诊断任务而言，我们的模型的性能优于4名医生中的3名（医生1,3,4）。 结果验证了深层网络超越了人类的图像分类性能[11]，而DeepLung比经验丰富的医生更适合结节诊断。
+
+We also employ Kappa coefficient, which is a common approach to evaluate the agreement between two raters, to test the agreement between DeepLung and the ground truth [16]. The kappa coefficient of DeepLung is 85.07%, which is significantly better than the average kappa coefficient of doctors (81.58%). To evaluate the performance for all nodules including borderline nodules (labeled as 3, uncertain between malignant and benign), we compute the log likelihood (LL) scores of DeepLung and doctors’ diagnosis. We randomly sample 100 times from the experienced doctors’ annotations as 100 “simulated” doctors. The mean LL of doctors is -2.563 with a standard deviation of 0.23. By contrast, the LL of DeepLung is -1.515, showing that the performance of DeepLung is 4.48 standard deviation better than the average performance of doctors, which is highly statistically significant. It is important to analysis the sta-tistical property of predictions for borderline nodules that cannot be conclusively classified by doctors. Interestingly, 64.98% of the borderline nodules are classified to be either malignant (with probability > 0.9) or benign (with probability < 0.1) in Table 3. DeepLung classified most of the borderline nodules of malignant probabilities closer to zero or closer to one, showing its potential as a tool for assisted diagnosis.
+
+​       我们还使用Kappa系数，这是评估两个评估者之间一致性的常用方法，用于测试DeepLung与ground truth之间的一致性[16]。 DeepLung的kappa系数为85.07％，明显优于医生的平均kappa系数（81.58％）。为了评估包括临界结节（记为3，不确定恶性或良性）的所有结节的表现，我们计算了DeepLung的对数似然（LL）评分和医生的诊断。我们从经验丰富的医生标注中随机抽取100次作为100名“模拟”医生。医生的平均LL为-2.563，标准差为0.23。相比之下，DeepLung的LL为-1.515，表明DeepLung在标准差上性能比医生的平均性能好4.48倍，具有显著的统计学意义。分析医生无法确信的分类临界结节的预测统计特性非常重要。有趣的是，表Table 3中有64.98％的临界结节被分类为恶性（概率> 0.9）或良性（概率<0.1）.DeepLung将大多数恶性概率的临界结节分类为接近于0或接近于1，显示其作为辅助诊断工具的潜力。
+
+### 4.5.  DeepLung全自动肺部CT癌症诊断
+
+We also validate the DeepLung for fully automated lung CT cancer diagnosis on the LIDC-IDRI dataset with the same protocol as LUNA16’s patient-level split. Firstly, we employ our 3D Faster R-CNN to detect suspicious nodules. Then we retrain the model from nodule classification model on the detected nodules dataset. If the center of detected nodule is within the ground truth positive nodule, it is a positive nodule. Otherwise, it is a negative nodule. Through this mapping from the detected nodule and ground truth nodule, we can evaluate the performance and compare it with the performance of experienced doctors. We adopt the test fold 1, 2, 3, 4, 5 to validate the performance the same as that for nodule classification.
+
+我们还使用与LUNA16患者级别相同的分割(split)方案，在LIDC-IDRI数据集上验证DeepLung全自动肺癌CT诊断。 首先，我们使用3D Faster R-CNN来检测可疑的结节。 然后我们在检测到的结节数据集上的训练结节分类模型。 如果检测到的结节的中心位于ground truth的结节内，则它是一个阳性结节。 否则，它是一个阴性结节。 通过检测到的结节和ground truth结节的映射，我们可以评估性能并将其与经验丰富的医生的性能进行比较。与结节分类一样，我们采用测试的1,2,3,4,5折(fold)来验证性能,。
+
+
+
+Different from pure nodule classification, the fully automated lung CT nodule diagnosis relies on nodule detection. We evaluate the performance of DeepLung on the detection true positive (TP) set and detection false positive (FP) set individually in Table 4. If the detected nodule of center within one of ground truth nodule regions, it is in the TP set. If the detected nodule of center out of any ground truth nodule regions, it is in FP set. From Table 4, the DeepLung system using detected nodule region obtains 81.42% accuracy for all the detected TP nodules. Note that the experienced doctors obtain 78.36% accuracy for all the nodule diagnosis on average. The DeepLung system with fully automated lung CT nodule diagnosis still achieves above average performance of experienced doctors. On the FP set, our nodule classification subnetwork in the DeepLung can reduce 97.02% FP detected nodules, which guarantees that our fully automated system is effective for the lung CT cancer diagnosis.
+
+​       与单纯的结核分类不同，全自动肺CT结节诊断依赖于结节检测。 我们在表Table 4中单独评估DeepLung对检测真阳性（TP）组和检测假阳性（FP）组的性能。如果检测到中心在一个ground truth结节区域内，则它在TP组中。 如果检测到的中心结节不在任何ground truth结节区域中，则它在FP集中。 从表Table 4中，对所有检测到的TP结节DeepLung系统获得了的81.42％的准确度。 注意到，经验丰富的医生在所有结节上平均诊断准确率为78.36％。 全自动肺CT结节诊断系统DeepLung仍然超过了经验丰富的医生的平均水平。 在FP组中，我们在DeepLung中的结节分类子网可以减少97.02％FP检测到的结节，这保证了我们的全自动系统对肺部CT癌症诊断有效。
+
+#### 4.5.1 与经验丰富的医生在他们各自确信的CT比较
+
+We employ the DeepLung for patient-level diagnosis further. If the current CT has one nodule that is classified aspositive, the diagnosis of the CT is positive. If all the nodules are classified as negative for the CT, the diagnosis of the CT is negative. We evaluate the DeepLung on the doctors’ individually confident CTs for benchmark comparison in Table 5
+
+我们使用DeepLung进一步进行患者级诊断。 如果当前CT有一个分类为阳性的结节，则CT的诊断为阳性。 如果CT的所有结节都分类为阴性，则CT的诊断结果为阴性。 我们在医生的各自确信CT上对DeepLung进行评估，以进行表Table 5中的基准比较
+
+From Table 5, DeepLung achieves 81.41% patient-level diagnosis accuracy. This is 99% of the average performance of four experienced doctors and better than Dr 4 altogether. This performance gives confidence that DeepLung can be a useful tool to assist doctors’ in their diagonsis. We further validate our method against the four doctors’ individual confidential CTs. The Kappa coefficient of DeepLung is 63.02%, while the average Kappa coefficient of the doctors is 64.46%. It implies the predictions of DeepLung are of good agreement with ground truths for patient-level diagnosis, and are comparable with those of experienced doctors
+
+​        表Table 5中，DeepLung达到81.41％的患者水平诊断准确性。 这是四位经验丰富的医生平均表现的99％，并且优于第4位医生。 这种表现让人相信DeepLung可以成为帮助医生解决问题的有用工具。 我们进一步验证了我们针对四位医生的各自确信的CT。 DeepLung的Kappa系数为63.02％，而医生的平均Kappa系数为64.46％。 这意味着DeepLung的预测与患者级诊断的ground truth非常吻合，并且与经验丰富的医生相当
+
+
+
+
+
+
+
+## 5. 讨论
+
+In this section, we will argue the utility of DeepLung by visualizing the nodule detection and classification results.
+
+### 5.1. 结节检测
+
+We randomly pick nodules from test fold 1 and visualize them in red circles in the first row of Fig. 7. Detected nodules are visualized in blue circles of the second row. Because CT is 3D voxel data, we can only plot the central slice for visualization. The third row shows the detection probabilities for the detected nodules. The central slice number is shown below each slice. The diameter of the circle is relative to the nodule size.
+
+From the central slice visualizations in Fig. 7, we observe the detected nodule positions including central slice numbers are consistent with those of ground truth nodules. The circle sizes are similar between the nodules in the first row and the second row. The detection probability is also very high for these nodules in the third row. It shows 3D Faster R-CNN works well to detect the nodules from test fold 1.
+
+
+
+### 5.2. 结节分类
+
+We also visualize the nodule classification results from test fold 1 in Fig. 8. We choose nodules that is predicted right, but annotated incorrectly by some doctors. The first seven nodules are benign nodules, and the remaining nodules are malignant nodules. The numbers below the figures are the DeepLung predicted malignant probabilities followed by which annotation of doctors is wrong. For the DeepLung, if the probability is larger than 0.5, it predicts malignant. Otherwise, it predicts benign. For an experienced doctor, if a nodule is large and has irregular shape, it has a high probability to be a malignant nodule.
+
+
+
+From Fig. 8, we can observe that doctors mis-diagnose some nodules. The reason may be be that humans are not fit to process 3D CT data which are of low signal to noise ratio. Perhaps some doctors cannot find some weak irregular boundaries or erroraneously consider some normal tissues as nodule boundaries leading to false negatives or false positives. In addition, doctors’ own internal bias may play a role in how confident he/she predicts these scans while being limited to observing only one slice at a time. Machine learning-based methods can overcome these limitations and are able to learn complicated rules and high dimensional features while utilizing all input slices at once without much problem. From this perspective, DeepLung can potentially be of great use to doctors in their effort to make consistent and accurage diagonsis.
+
+
+
+## 6.总结
+
+In this work, we propose a fully automated lung CT cancer diagnosis system based on deep learning. DeepLung consists of two parts, nodule detection and classification. To fully exploit 3D CT images, we propose two deep 3D convolutional networks based on 3D dual path networks, which is more compact and can yield better performance than residual networks. For nodule detection, we design a 3D Faster R-CNN with 3D dual path blocks and a U-netlike encoder-decoder structure to detect candidate nodules. The detected nodules are subsequently fed to nodule classification network. We use a deep 3D dual path network to extract classification features. Finally, gradient boosting machine with combined features are trained to classify candidate nodules into benign or malignant. Extensive experimental results on public available large-scale datasets, LUNA16 and LIDC-IDRI datasets, demonstrate the superior performance of the DeepLung system. 
