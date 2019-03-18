@@ -1,0 +1,4 @@
+.idea
+*/.ipynb_checkpoints
+*.hdf5
+tmp

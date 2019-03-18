@@ -4,7 +4,7 @@
 
 
 
-### 弱监督
+### 弱监督学习
 
 20170906-20 张鼎文：Weakly Supervised Visual learning: [视频](http://www.iqiyi.com/w_19rv5si3th.html#vfrm=8-8-0-1)  [网址](http://valser.org/article-226-1.html)
 

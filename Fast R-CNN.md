@@ -379,7 +379,7 @@ $$
 22. [22] P.ViolaandM.Jones.Rapidobjectdetectionusingaboosted cascade of simple features. In CVPR, 2001. 8 
 23. [23] J. Xue, J. Li, and Y. Gong. Restructuring of deep neural network acoustic models with singular value decomposition. In Interspeech, 2013. 4
 24. [24] X. Zhu, C. Vondrick, D. Ramanan, and C. Fowlkes. Do we need more training data or better models for object detec- tion? In BMVC, 2012. 7
-25.  [25] Y. Zhu, R. Urtasun, R. Salakhutdinov, and S. Fidler. segDeepM: Exploiting segmentation and context in deep neural networks for object detection. In CVPR, 2015. 1, 5 
+25. [25] Y. Zhu, R. Urtasun, R. Salakhutdinov, and S. Fidler. segDeepM: Exploiting segmentation and context in deep neural networks for object detection. In CVPR, 2015. 1, 5 
 
 
 
