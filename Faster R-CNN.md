@@ -11,6 +11,8 @@ Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks
 
  Faster R-CNN论文地址：<https://arxiv.org/pdf/1506.01497.pdf>。
 
+ Keras实现：https://github.com/yizt/keras-faster-rcnn 
+
 
 
 ## 依赖知识

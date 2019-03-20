@@ -10,6 +10,8 @@
 
 论文地址：https://arxiv.org/abs/1609.03605
 
+Keras实现：https://github.com/yizt/keras-ctpn
+
 ## 关键词
 
 场景文本检测；卷积网络；循环神经网络；锚点机制
