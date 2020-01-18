@@ -249,7 +249,7 @@ K（K小于2000），在这2000个proposals基础上采用多IoU阈值的NMS对�
   （*AR\@10*,*AR\@100* and *AR\@1000——10,100,1000 box proposals AND*
 
 *    AR\@100-Small, AR\@100-Medium and AR\@100-Large——small (a \< 32\^2), medium
-  (32\^2 ≤ a ≤ 96\^2) and large (a \> 96\^2) sized objects* ） 
+    (32\^2 ≤ a ≤ 96\^2) and large (a \> 96\^2) sized objects* ） 
 
 ![C:\\fff05b435b445d97649aba63a20645c4](pic/AttractioNet-tab1.jpg)
 
@@ -487,18 +487,4 @@ $$
 
 
 
-
-
-
-
-
-## 关于我们
-
-我司正招聘文本挖掘、计算机视觉等相关人员，欢迎加入我们；也欢迎与我们在线沟通任何关于数据挖掘理论和应用的问题；
-
-在长沙的朋友也可以线下交流, 坐标: 长沙市高新区麓谷新长海中心 B1栋8A楼09室
-
-公司网址：http://www.embracesource.com/
-
-Email: mick.yi@embracesource.com 或 csuyzt@163.com
 

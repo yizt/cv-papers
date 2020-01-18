@@ -263,9 +263,9 @@ stage和3rd stage剔除离散值之后再做偏移量和偏差量的statitics的
 ### Comparison with *Iterative BBox* and *Intergral Loss*
 
 *      Iterative BBox*和 *Intergral Loss*
-  的结构在没有级联结构，3个classifiers虽然采用不同的IoU阈值，但是share同一个regressor，所以作者这里拿Cascade
-  R-CNN分别跟 Iterative BBox 的Localization&AP、Intergral Loss
-  的AP情况做了比较（baseline采用的是FPN+）。
+    的结构在没有级联结构，3个classifiers虽然采用不同的IoU阈值，但是share同一个regressor，所以作者这里拿Cascade
+    R-CNN分别跟 Iterative BBox 的Localization&AP、Intergral Loss
+    的AP情况做了比较（baseline采用的是FPN+）。
 
 ![Cascade_R-CNN-fig7.jpg](pic/Cascade_R-CNN-fig7.jpg)
 
@@ -331,16 +331,4 @@ set来说把FPN当作一个检测网络的整体，3-stage就是proposals3次递
 RCNN处理后，分布发生变化的更高质量样本。
 
 
-
-
-
-## 关于我们
-
-我司正招聘文本挖掘、计算机视觉等相关人员，欢迎加入我们；也欢迎与我们在线沟通任何关于数据挖掘理论和应用的问题；
-
-在长沙的朋友也可以线下交流, 坐标: 长沙市高新区麓谷新长海中心 B1栋8A楼09室
-
-公司网址：http://www.embracesource.com/
-
-Email: mick.yi@embracesource.com 或 csuyzt@163.com
 

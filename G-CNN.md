@@ -52,9 +52,9 @@ box到groud truth的非线性变换。G-CNN结构见下图。
 ![C:\\89f88c5fe17a1ac5c23055924e0cb6e1](media/78561efedd6f5cbd3a27834d8303d71d.tmp)
 
     =
-
+    
     ![C:\\c902222ddf8f9f31bf44475a8021982e](media/a0c3c5c04fe61a3490d6cea408c8f3d0.tmp)
-
+    
     ：每一步迭代的target bounding box
 
 -   红色框：bounding Box；蓝色框：target bounding box
@@ -133,29 +133,29 @@ G-CNN目标函数包括两个部分（1）每个训练样本的loss和，（2）
 ![C:\\682322cebd71dc44ebf65a9456431d5b](media/8139dfe5538fbaa77f3d2edb6cd19588.tmp)
 
     ：由
-
+    
     ![C:\\313348e62f8e4e43efce2c8a7ed54e57](media/8da3ca7e479cf9fcf1c0f23826d713ee.tmp)
-
+    
     到
-
+    
     ![C:\\c902222ddf8f9f31bf44475a8021982e](media/a0c3c5c04fe61a3490d6cea408c8f3d0.tmp)
-
+    
     的4个预测变换参数，
-
+    
     ![C:\\d26c14c466f323bbc4717b3eaff30f10](media/388ba9c98a7ad04ece7162bc710d98c5.tmp)
-
+    
     是bounding box 的类别标签
 
 ![C:\\d9333b511bea9e289b3c7191445830dd](media/8d75063b30f4b4394b9a478bc86f775c.tmp)
 
     ：由
-
+    
     ![C:\\313348e62f8e4e43efce2c8a7ed54e57](media/8da3ca7e479cf9fcf1c0f23826d713ee.tmp)
-
+    
     到
-
+    
     ![C:\\c902222ddf8f9f31bf44475a8021982e](media/a0c3c5c04fe61a3490d6cea408c8f3d0.tmp)
-
+    
     的4个真实变换参数
 
 G-CNN测试
@@ -252,15 +252,4 @@ heightcell ∗ (1 − α) respectively。目前G-CNN代码未开源，相关说�
 
  
 
-
-
-## 关于我们
-
-我司正招聘文本挖掘、计算机视觉等相关人员，欢迎加入我们；也欢迎与我们在线沟通任何关于数据挖掘理论和应用的问题；
-
-在长沙的朋友也可以线下交流, 坐标: 长沙市高新区麓谷新长海中心 B1栋8A楼09室
-
-公司网址：http://www.embracesource.com/
-
-Email: mick.yi@embracesource.com 或 csuyzt@163.com
 

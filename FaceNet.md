@@ -479,14 +479,3 @@ wild with deep neural networks. CoRR, abs/1404.3543, 2014. 2
  
 
 
-
-## 关于我们
-
-我司正招聘文本挖掘、计算机视觉等相关人员，欢迎加入我们；也欢迎与我们在线沟通任何关于数据挖掘理论和应用的问题；
-
-在长沙的朋友也可以线下交流, 坐标: 长沙市高新区麓谷新长海中心 B1栋8A楼09室
-
-公司网址：http://www.embracesource.com/
-
-Email: mick.yi@embracesource.com 或 csuyzt@163.com
-
