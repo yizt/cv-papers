@@ -141,7 +141,7 @@ b) 公式效果
 
 公司网址：http://www.zvalley.com/
 
-Email: csuyzt@163.com
+Email: mick.yi@zoomlion.com
 
 微信:![](pic/wx.jpg)
 
